@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.2
+Created-By: Ricardo Artur Staroski
+Permissions: all-permissions
+Codebase: *.staroski.com.br
+Application-Name: Controle de Recarga
+Main-Class: br.com.staroski.recarga.ControleRecarga
+Class-Path: hsqldb.jar
+

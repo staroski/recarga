@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="makejar" default="makejar" basedir=".">
+
+	<target name="makejar" description="Cria o jar do aplicativo de recarga">
+		<!-- criar o recarga.jar -->
+		<manifest file="MANIFEST.MF">
+			<attribute name="Manifest-Version" value="1.0" />
+			<attribute name="Created-By" value="Ricardo Artur Staroski" />
+			<attribute name="Permissions" value="all-permissions" />
+			<attribute name="Codebase" value="*.staroski.com.br" />
+			<attribute name="Application-Name" value="Controle de Recarga" />
+			<attribute name="Main-Class" value="br.com.staroski.recarga.ControleRecarga" />
+			<attribute name="Class-Path" value="hsqldb.jar" />
+		</manifest>
+		<jar jarfile="dist/recarga.jar" includes="**/*.*" basedir="bin" manifest="MANIFEST.MF" />
+
+		<!-- copiar dependencias -->
+		<copy file="lib/hsqldb.jar" tofile="dist/hsqldb.jar" />
+
+		<!-- assinar jars -->
+		<signjar destDir="dist"
+			     keystore="staroski.keystore"
+			     alias="staroski"
+			     storepass="12345678"
+			     tsaurl="http://timestamp.comodoca.com/rfc3161"
+			     preservelastmodified="true">
+			<path>
+				<fileset dir="dist" includes="**/*.jar" />
+			</path>
+			<flattenmapper />
+		</signjar>
+	</target>
+</project>
