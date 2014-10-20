@@ -1,9 +1,11 @@
 package br.com.staroski.recarga;
 
-import java.net.*;
-import java.sql.*;
+import java.util.*;
 
 import javax.swing.*;
+
+import br.com.staroski.recarga.db.*;
+import br.com.staroski.recarga.db.tables.*;
 
 public final class ControleRecarga {
 
@@ -21,17 +23,15 @@ public final class ControleRecarga {
 	}
 
 	private void connect() throws Throwable {
-		String url = "db/recarga";
-		String user = "SA";
-		String pass = "";
-		final Connection c = DriverManager.getConnection("jdbc:hsqldb:file:" + url, user, pass);
-		try {
-			ResultSet rs = c.getMetaData().getTables(null, "PUBLIC", null, null);
-			while (rs.next()) {
-				System.out.println(rs.getString("TABLE_NAME"));
-			}
-		} finally {
-			c.close();
+		DataBase db = DataBase.get();
+		List<Calibre> calibres = db.list(Calibre.class);
+		for (Calibre c : calibres) {
+			System.out.println(c.getId());
+			System.out.println(c.getDescricao());
+			System.out.println(c.getCarga());
+			System.out.println(c.getChumbos());
+			System.out.println();
+			db.delete(c);
 		}
 	}
 
@@ -43,6 +43,5 @@ public final class ControleRecarga {
 		frame.setVisible(true);
 	}
 
-	private ControleRecarga() {
-	}
+	private ControleRecarga() {}
 }

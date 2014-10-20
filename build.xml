@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="makejar" default="makejar" basedir=".">
+<project name="build-recarga" default="make-recarga" basedir=".">
 
-	<target name="makejar" description="Cria o jar do aplicativo de recarga">
-		<!-- criar o recarga.jar -->
+	<property name="keystore" value="staroski.keystore" />
+	<property name="alias" value="staroski" />
+	<property name="storepass" value="12345678" />
+	<property name="tsaurl" value="http://timestamp.comodoca.com/rfc3161" />
+
+	<target name="make-recarga">
+		<delete file="dist/recarga.jar" />
 		<manifest file="MANIFEST.MF">
 			<attribute name="Manifest-Version" value="1.0" />
 			<attribute name="Created-By" value="Ricardo Artur Staroski" />
@@ -13,21 +18,23 @@
 			<attribute name="Class-Path" value="hsqldb.jar" />
 		</manifest>
 		<jar jarfile="dist/recarga.jar" includes="**/*.*" basedir="bin" manifest="MANIFEST.MF" />
-
-		<!-- copiar dependencias -->
-		<copy file="lib/hsqldb.jar" tofile="dist/hsqldb.jar" />
-
-		<!-- assinar jars -->
-		<signjar destDir="dist"
-			     keystore="staroski.keystore"
-			     alias="staroski"
-			     storepass="12345678"
-			     tsaurl="http://timestamp.comodoca.com/rfc3161"
-			     preservelastmodified="true">
+		<signjar destDir="dist" keystore="${keystore}" alias="${alias}" storepass="${storepass}" tsaurl="${tsaurl}" preservelastmodified="true">
 			<path>
-				<fileset dir="dist" includes="**/*.jar" />
+				<fileset dir="dist" includes="recarga.jar" />
 			</path>
 			<flattenmapper />
 		</signjar>
 	</target>
+
+	<target name="make-hsqldb">
+		<delete file="dist/hsqldb.jar" />
+		<copy file="lib/hsqldb.jar" tofile="dist/hsqldb.jar" />
+		<signjar destDir="dist" keystore="${keystore}" alias="${alias}" storepass="${storepass}" tsaurl="${tsaurl}" preservelastmodified="true">
+			<path>
+				<fileset dir="dist" includes="hsqldb.jar" />
+			</path>
+			<flattenmapper />
+		</signjar>
+	</target>
+
 </project>
