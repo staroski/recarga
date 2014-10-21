@@ -26,7 +26,7 @@ public final class Projetil extends Table {
 	}
 
 	@Override
-	protected void load(ResultSet data) throws SQLException {
+	protected void initialize(ResultSet data) throws SQLException {
 		descricao = data.getString("descricao");
 		quantidade = data.getInt("quantidade");
 

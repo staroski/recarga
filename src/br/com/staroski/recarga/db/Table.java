@@ -10,13 +10,17 @@ public abstract class Table {
 		return id;
 	}
 
-	public final boolean isPersistent() {
-		return id != -1;
+	public final void setId(long id) {
+		this.id = id;
 	}
 
-	protected abstract void load(ResultSet data) throws SQLException;
+	protected abstract void initialize(ResultSet data) throws SQLException;
 
-	final void setId(long id) {
-		this.id = id;
+	protected void onSave(Database db) throws SQLException {
+		// implementação padrão não faz nada, subclasses podem especializar
+	}
+
+	protected void onDelete(Database db) throws SQLException {
+		// implementação padrão não faz nada, subclasses podem especializar
 	}
 }
