@@ -4,13 +4,14 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class JanelaPrincipal extends JFrame {
+public final class JanelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1;
 
 	public JanelaPrincipal() {
 		super(Recursos.TITULO_JANELA_PRINCIPAL);
 		setIconImage(Recursos.IMAGEM_ICONE);
+		setContentPane(new ContentPane());
 		Dimension size = new Dimension(640, 480);
 		setSize(size);
 		setMinimumSize(size);
@@ -42,8 +43,15 @@ public class JanelaPrincipal extends JFrame {
 
 		// e registramos cada tela com sua respectiva contante 
 		controlador.registra(Tela.INICIAL, new TelaInicial());
-		controlador.registra(Tela.CALIBRES, new CadastroCalibres());
+		controlador.registra(Tela.LISTA_CALIBRES, new ListaCalibres());
 		controlador.registra(Tela.VERDE, new TelaVerde());
 		controlador.registra(Tela.AZUL, new TelaAzul());
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		Rectangle r = getBounds();
+		g.drawImage(Recursos.IMAGEM_FUNDO, 0, 0, r.width, r.height, this);
+		super.paintComponents(g);
 	}
 }

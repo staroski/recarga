@@ -6,7 +6,6 @@ import java.sql.*;
 import javax.swing.*;
 
 import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
 import br.com.staroski.recarga.ui.*;
 
 public final class ControleRecarga {
@@ -21,31 +20,16 @@ public final class ControleRecarga {
 
 	private ControleRecarga() {}
 
-	private void execute() throws Throwable {
-		login();
-		//		createDummyData();
-		showFrame();
+	private void createDummyData() {
+		DummyDataCreator creator = new DummyDataCreator(Database.get());
+		creator.execute();
 	}
 
-	//	private void createDummyData() {
-	//		Database db = Database.get();
-	//		String[] nomes = new String[] { //
-	//		        "teste 1", //
-	//				"teste 2", //
-	//				"teste 3", //
-	//				"teste 4", //
-	//				"teste 5", //
-	//				"teste 6", //
-	//				"teste 7", //
-	//		};
-	//		for (String nome : nomes) {
-	//			Calibre calibre = new Calibre();
-	//			calibre.setDescricao(nome);
-	//			calibre.setCarga(Math.random() * 10);
-	//			calibre.setChumbos((int) (Math.random() * 10));
-	//			db.save(calibre);
-	//		}
-	//	}
+	private void execute() throws Throwable {
+		login();
+		createDummyData();
+		showFrame();
+	}
 
 	private void login() {
 		try {

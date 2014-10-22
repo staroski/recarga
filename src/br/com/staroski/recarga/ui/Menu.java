@@ -1,4 +1,5 @@
 package br.com.staroski.recarga.ui;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -9,8 +10,10 @@ final class Menu extends JPanel {
 	private static final long serialVersionUID = 1;
 
 	public Menu() {
+		setOpaque(false);
+
 		// os botões ficarão alinhados verticalmente
-		setLayout(new GridLayout(4, 1));
+		setLayout(new GridLayout(4, 1, 10, 10));
 
 		// instanciamos os botões
 		JButton botaoTela1 = new JButton("Início");
@@ -60,7 +63,7 @@ final class Menu extends JPanel {
 	}
 
 	private void exibeTelaVermelha() {
-		Controlador.get().exibe(Tela.CALIBRES);
+		Controlador.get().exibe(Tela.LISTA_CALIBRES);
 	}
 
 	private void exibeTelaVerde() {

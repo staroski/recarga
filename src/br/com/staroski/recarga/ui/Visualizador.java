@@ -9,5 +9,6 @@ final class Visualizador extends JPanel {
 
 	public Visualizador() {
 		super(new CardLayout());
+		setOpaque(false);
 	}
 }

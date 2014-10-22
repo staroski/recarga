@@ -10,9 +10,11 @@ import javax.swing.table.*;
 import br.com.staroski.recarga.db.*;
 import br.com.staroski.recarga.db.tables.*;
 
-final class CadastroCalibres extends JPanel {
+final class ListaCalibres extends JPanel {
 
 	private class Modelo extends AbstractTableModel {
+
+		private static final long serialVersionUID = 1;
 
 		@Override
 		public int getRowCount() {
@@ -81,7 +83,7 @@ final class CadastroCalibres extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CadastroCalibres() {
+	public ListaCalibres() {
 		setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -101,7 +103,11 @@ final class CadastroCalibres extends JPanel {
 	}
 
 	private void editaCalibre() {
-		//TODO
-		System.out.println("editaCalibre()");
+		int linha = table.getSelectedRow();
+		if (linha >= 0 && linha < calibres.size()) {
+			Calibre calibre = calibres.get(linha);
+			CadastroCalibre dialogo = new CadastroCalibre(calibre);
+			dialogo.setVisible(true);
+		}
 	}
 }

@@ -10,12 +10,6 @@ final class TelaInicial extends JPanel {
 
 	public TelaInicial() {
 		setOpaque(false);
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		Rectangle r = getBounds();
-		g.drawImage(Recursos.IMAGEM_FUNDO, 0, 0, r.width, r.height, this);
-		super.paintComponent(g);
+		add(BorderLayout.NORTH, new JLabel("Tela Inicial", SwingConstants.CENTER));
 	}
 }
