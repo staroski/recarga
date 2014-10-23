@@ -107,6 +107,7 @@ final class ListaCalibres extends JPanel {
 		if (linha >= 0 && linha < calibres.size()) {
 			Calibre calibre = calibres.get(linha);
 			CadastroCalibre dialogo = new CadastroCalibre(calibre);
+			dialogo.setLocationRelativeTo(this);
 			dialogo.setVisible(true);
 		}
 	}

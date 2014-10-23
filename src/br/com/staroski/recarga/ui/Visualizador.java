@@ -10,5 +10,6 @@ final class Visualizador extends JPanel {
 	public Visualizador() {
 		super(new CardLayout());
 		setOpaque(false);
+		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	}
 }

@@ -23,6 +23,9 @@ final class CadastroCalibre extends JDialog {
 	private void salvar() {
 		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (opcao == JOptionPane.YES_OPTION) {
+			calibre.setDescricao(textFieldDescricao.getText().trim());
+			calibre.setChumbos(Integer.parseInt(textFieldChumbos.getText().trim()));
+			calibre.setCarga(Double.parseDouble(textFieldPolvora.getText().trim()));
 			Database.get().save(calibre);
 			dispose();
 		}
@@ -55,7 +58,7 @@ final class CadastroCalibre extends JDialog {
 		});
 		setResizable(false);
 		setTitle("Calibre");
-		setBounds(100, 100, 460, 140);
+		setBounds(100, 100, 420, 140);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -105,7 +108,7 @@ final class CadastroCalibre extends JDialog {
 		textFieldDescricao.setColumns(10);
 
 		textFieldChumbos = new JTextField();
-		textFieldChumbos.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		textFieldChumbos.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_textFieldChumbos = new GridBagConstraints();
 		gbc_textFieldChumbos.anchor = GridBagConstraints.NORTH;
 		gbc_textFieldChumbos.fill = GridBagConstraints.HORIZONTAL;
@@ -116,7 +119,7 @@ final class CadastroCalibre extends JDialog {
 		textFieldChumbos.setColumns(10);
 
 		textFieldPolvora = new JTextField();
-		textFieldPolvora.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		textFieldPolvora.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_textFieldPolvora = new GridBagConstraints();
 		gbc_textFieldPolvora.anchor = GridBagConstraints.NORTH;
 		gbc_textFieldPolvora.fill = GridBagConstraints.HORIZONTAL;

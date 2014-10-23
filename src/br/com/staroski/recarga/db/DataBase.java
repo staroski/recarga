@@ -193,7 +193,7 @@ public final class Database {
 		Class<?> table = object.getClass();
 		Field[] fields = table.getDeclaredFields();
 		String columnsValues = prepareUpdateParams(fields);
-		String sql = "update " + tableName(object) + " set (" + columnsValues + ") where id=?";
+		String sql = "update " + tableName(object) + " set " + columnsValues + " where id=?";
 		PreparedStatement stmt = getConnection().prepareStatement(sql);
 		int count = fields.length;
 		for (int i = 0; i < count; i++) {
@@ -201,7 +201,7 @@ public final class Database {
 			field.setAccessible(true);
 			stmt.setObject(i + 1, field.get(object));
 		}
-		stmt.setLong(count, object.getId());
+		stmt.setLong(count + 1, object.getId());
 		return stmt;
 	}
 

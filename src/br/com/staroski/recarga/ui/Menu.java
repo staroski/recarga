@@ -11,6 +11,7 @@ final class Menu extends JPanel {
 
 	public Menu() {
 		setOpaque(false);
+		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// os botões ficarão alinhados verticalmente
 		setLayout(new GridLayout(4, 1, 10, 10));
