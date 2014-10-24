@@ -19,8 +19,8 @@ final class Menu extends JPanel {
 		// instanciamos os botões
 		JButton botaoTela1 = new JButton("Início");
 		JButton botaoTela2 = new JButton("Calibres");
-		JButton botaoTela3 = new JButton("Tela Verde");
-		JButton botaoTela4 = new JButton("Tela Azul");
+		JButton botaoTela3 = new JButton("Cartuchos");
+		JButton botaoTela4 = new JButton("Projéteis");
 
 		// registramos os ActionListeners de cada um
 		botaoTela1.addActionListener(new ActionListener() {
@@ -68,7 +68,7 @@ final class Menu extends JPanel {
 	}
 
 	private void exibeTelaVerde() {
-		Controlador.get().exibe(Tela.VERDE);
+		Controlador.get().exibe(Tela.LISTA_CARTUCHOS);
 	}
 
 	private void exibeTelaAzul() {

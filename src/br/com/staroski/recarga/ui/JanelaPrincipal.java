@@ -44,7 +44,7 @@ public final class JanelaPrincipal extends JFrame {
 		// e registramos cada tela com sua respectiva contante 
 		controlador.registra(Tela.INICIAL, new TelaInicial());
 		controlador.registra(Tela.LISTA_CALIBRES, new ListaCalibres());
-		controlador.registra(Tela.VERDE, new TelaVerde());
+		controlador.registra(Tela.LISTA_CARTUCHOS, new ListaCartuchos());
 		controlador.registra(Tela.AZUL, new TelaAzul());
 	}
 
