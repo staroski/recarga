@@ -14,64 +14,107 @@ final class Menu extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// os botões ficarão alinhados verticalmente
-		setLayout(new GridLayout(4, 1, 10, 10));
+		setLayout(new GridLayout(7, 1, 10, 10));
 
 		// instanciamos os botões
-		JButton botaoTela1 = new JButton("Início");
-		JButton botaoTela2 = new JButton("Calibres");
-		JButton botaoTela3 = new JButton("Cartuchos");
-		JButton botaoTela4 = new JButton("Projéteis");
 
 		// registramos os ActionListeners de cada um
-		botaoTela1.addActionListener(new ActionListener() {
+		JButton botaoInicio = new JButton("Início");
+		botaoInicio.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exibeTelaBranca();
+				exibeTelaInicial();
 			}
 		});
-		botaoTela2.addActionListener(new ActionListener() {
+		add(botaoInicio);
+
+		JButton botaoCalibres = new JButton("Calibres");
+		botaoCalibres.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exibeTelaVermelha();
+				exibeListaCalibres();
 			}
 		});
-		botaoTela3.addActionListener(new ActionListener() {
+		add(botaoCalibres);
+
+		JButton botaoCartuchos = new JButton("Cartuchos");
+		botaoCartuchos.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exibeTelaVerde();
+				exibeListaCartuchos();
 			}
 		});
-		botaoTela4.addActionListener(new ActionListener() {
+		add(botaoCartuchos);
+
+		JButton botaoChumbos = new JButton("Chumbos");
+		botaoChumbos.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exibeTelaAzul();
+				exibeListaChumbos();
 			}
 		});
+		add(botaoChumbos);
 
-		// e finalmente adicionamos os botões neste painel
-		add(botaoTela1);
-		add(botaoTela2);
-		add(botaoTela3);
-		add(botaoTela4);
+		JButton botaoEspoletas = new JButton("Espoletas");
+		botaoEspoletas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exibeListaEspoletas();
+			}
+		});
+		add(botaoEspoletas);
+
+		JButton botaoPolvoras = new JButton("Pólvoras");
+		botaoPolvoras.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exibeListaPolvoras();
+			}
+		});
+		add(botaoPolvoras);
+
+		JButton botaoProjeteis = new JButton("Projéteis");
+		botaoProjeteis.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exibeListaProjeteis();
+			}
+		});
+		add(botaoProjeteis);
 	}
 
-	private void exibeTelaBranca() {
+	private void exibeTelaInicial() {
 		Controlador.get().exibe(Tela.INICIAL);
 	}
 
-	private void exibeTelaVermelha() {
+	private void exibeListaCalibres() {
 		Controlador.get().exibe(Tela.LISTA_CALIBRES);
 	}
 
-	private void exibeTelaVerde() {
+	private void exibeListaCartuchos() {
 		Controlador.get().exibe(Tela.LISTA_CARTUCHOS);
 	}
 
-	private void exibeTelaAzul() {
-		Controlador.get().exibe(Tela.AZUL);
+	private void exibeListaChumbos() {
+		Controlador.get().exibe(Tela.LISTA_CHUMBOS);
+	}
+
+	private void exibeListaEspoletas() {
+		Controlador.get().exibe(Tela.LISTA_ESPOLETAS);
+	}
+
+	private void exibeListaPolvoras() {
+		Controlador.get().exibe(Tela.LISTA_POLVORAS);
+	}
+
+	private void exibeListaProjeteis() {
+		Controlador.get().exibe(Tela.LISTA_PROJETEIS);
 	}
 }

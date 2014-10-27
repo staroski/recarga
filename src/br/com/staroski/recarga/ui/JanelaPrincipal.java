@@ -45,7 +45,10 @@ public final class JanelaPrincipal extends JFrame {
 		controlador.registra(Tela.INICIAL, new TelaInicial());
 		controlador.registra(Tela.LISTA_CALIBRES, new ListaCalibres());
 		controlador.registra(Tela.LISTA_CARTUCHOS, new ListaCartuchos());
-		controlador.registra(Tela.AZUL, new TelaAzul());
+		controlador.registra(Tela.LISTA_CHUMBOS, new ListaChumbos());
+		controlador.registra(Tela.LISTA_ESPOLETAS, new ListaEspoletas());
+		controlador.registra(Tela.LISTA_POLVORAS, new ListaPolvoras());
+		controlador.registra(Tela.LISTA_PROJETEIS, new ListaProjeteis());
 	}
 
 	@Override

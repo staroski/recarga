@@ -1,7 +1,5 @@
 package br.com.staroski.recarga.ui;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 final class TelaInicial extends JPanel {
@@ -10,6 +8,5 @@ final class TelaInicial extends JPanel {
 
 	public TelaInicial() {
 		setOpaque(false);
-		add(BorderLayout.NORTH, new JLabel("Tela Inicial", SwingConstants.CENTER));
 	}
 }
