@@ -16,7 +16,15 @@ public abstract class Table {
 
 	protected abstract void initialize(ResultSet data) throws SQLException;
 
-	protected void onSave(Database db) throws SQLException {
+	protected void onLoad(Database db) throws SQLException {
+		// implementação padrão não faz nada, subclasses podem especializar
+	}
+
+	protected void beforeSave(Database db) throws SQLException {
+		// implementação padrão não faz nada, subclasses podem especializar
+	}
+	
+	protected void afterSave(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
 

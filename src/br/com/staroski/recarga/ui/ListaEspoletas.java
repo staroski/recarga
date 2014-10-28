@@ -125,7 +125,7 @@ final class ListaEspoletas extends JPanel {
 	}
 
 	private void atualizar() {
-		espoletas = Database.get().list(Espoleta.class);
+		espoletas = Database.get().load(Espoleta.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
@@ -158,7 +158,7 @@ final class ListaEspoletas extends JPanel {
 
 	private List<Espoleta> getEspoletas() {
 		if (espoletas == null) {
-			espoletas = Database.get().list(Espoleta.class);
+			espoletas = Database.get().load(Espoleta.class);
 		}
 		return espoletas;
 	}

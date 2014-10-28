@@ -125,7 +125,7 @@ final class ListaPolvoras extends JPanel {
 	}
 
 	private void atualizar() {
-		polvoras = Database.get().list(Polvora.class);
+		polvoras = Database.get().load(Polvora.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
@@ -158,7 +158,7 @@ final class ListaPolvoras extends JPanel {
 
 	private List<Polvora> getPolvoras() {
 		if (polvoras == null) {
-			polvoras = Database.get().list(Polvora.class);
+			polvoras = Database.get().load(Polvora.class);
 		}
 		return polvoras;
 	}

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 final class Menu extends JPanel {
 
@@ -12,13 +13,12 @@ final class Menu extends JPanel {
 	public Menu() {
 		setOpaque(false);
 		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		// os botões ficarão alinhados verticalmente
-		setLayout(new GridLayout(7, 1, 10, 10));
+		JPanel panel = new JPanel(new GridLayout(3, 1, 10, 10));
+		panel.setOpaque(false);
+		add(panel);
 
-		// instanciamos os botões
-
-		// registramos os ActionListeners de cada um
 		JButton botaoInicio = new JButton("Início");
 		botaoInicio.addActionListener(new ActionListener() {
 
@@ -27,7 +27,7 @@ final class Menu extends JPanel {
 				exibeTelaInicial();
 			}
 		});
-		add(botaoInicio);
+		panel.add(botaoInicio);
 
 		JButton botaoCalibres = new JButton("Calibres");
 		botaoCalibres.addActionListener(new ActionListener() {
@@ -37,17 +37,32 @@ final class Menu extends JPanel {
 				exibeListaCalibres();
 			}
 		});
-		add(botaoCalibres);
+		panel.add(botaoCalibres);
 
-		JButton botaoCartuchos = new JButton("Cartuchos");
-		botaoCartuchos.addActionListener(new ActionListener() {
+		JButton botaoMunicoes = new JButton("Munições");
+		botaoMunicoes.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exibeListaCartuchos();
+				exibeListaMunicoes();
 			}
 		});
-		add(botaoCartuchos);
+		panel.add(botaoMunicoes);
+
+		JPanel insumos = new JPanel(new GridLayout(5, 1, 10, 10));
+		insumos.setOpaque(false);
+		insumos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Insumos"));
+		add(insumos);
+
+		JButton botaoEstojos = new JButton("Estojos");
+		botaoEstojos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exibeListaEstojos();
+			}
+		});
+		insumos.add(botaoEstojos);
 
 		JButton botaoChumbos = new JButton("Chumbos");
 		botaoChumbos.addActionListener(new ActionListener() {
@@ -57,7 +72,7 @@ final class Menu extends JPanel {
 				exibeListaChumbos();
 			}
 		});
-		add(botaoChumbos);
+		insumos.add(botaoChumbos);
 
 		JButton botaoEspoletas = new JButton("Espoletas");
 		botaoEspoletas.addActionListener(new ActionListener() {
@@ -67,7 +82,7 @@ final class Menu extends JPanel {
 				exibeListaEspoletas();
 			}
 		});
-		add(botaoEspoletas);
+		insumos.add(botaoEspoletas);
 
 		JButton botaoPolvoras = new JButton("Pólvoras");
 		botaoPolvoras.addActionListener(new ActionListener() {
@@ -77,7 +92,7 @@ final class Menu extends JPanel {
 				exibeListaPolvoras();
 			}
 		});
-		add(botaoPolvoras);
+		insumos.add(botaoPolvoras);
 
 		JButton botaoProjeteis = new JButton("Projéteis");
 		botaoProjeteis.addActionListener(new ActionListener() {
@@ -87,7 +102,7 @@ final class Menu extends JPanel {
 				exibeListaProjeteis();
 			}
 		});
-		add(botaoProjeteis);
+		insumos.add(botaoProjeteis);
 	}
 
 	private void exibeTelaInicial() {
@@ -98,8 +113,8 @@ final class Menu extends JPanel {
 		Controlador.get().exibe(Tela.LISTA_CALIBRES);
 	}
 
-	private void exibeListaCartuchos() {
-		Controlador.get().exibe(Tela.LISTA_CARTUCHOS);
+	private void exibeListaEstojos() {
+		Controlador.get().exibe(Tela.LISTA_ESTOJOS);
 	}
 
 	private void exibeListaChumbos() {
@@ -116,5 +131,9 @@ final class Menu extends JPanel {
 
 	private void exibeListaProjeteis() {
 		Controlador.get().exibe(Tela.LISTA_PROJETEIS);
+	}
+
+	private void exibeListaMunicoes() {
+		Controlador.get().exibe(Tela.LISTA_MUNICOES);
 	}
 }

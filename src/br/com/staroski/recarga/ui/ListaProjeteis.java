@@ -125,7 +125,7 @@ final class ListaProjeteis extends JPanel {
 	}
 
 	private void atualizar() {
-		projetils = Database.get().list(Projetil.class);
+		projetils = Database.get().load(Projetil.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
@@ -158,7 +158,7 @@ final class ListaProjeteis extends JPanel {
 
 	private List<Projetil> getProjetils() {
 		if (projetils == null) {
-			projetils = Database.get().list(Projetil.class);
+			projetils = Database.get().load(Projetil.class);
 		}
 		return projetils;
 	}

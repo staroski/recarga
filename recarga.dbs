@@ -3,34 +3,45 @@
 	<schema name="PUBLIC" schemaname="PUBLIC" >
 		<table name="CALIBRE" >
 			<column name="ID" type="integer" jt="4" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="16" jt="12" mandatory="y" />
-			<column name="CARGA" type="numeric" length="6" decimal="3" jt="2" mandatory="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
+			<column name="POLVORA" type="numeric" length="6" decimal="3" jt="2" mandatory="y" />
 			<column name="CHUMBOS" type="integer" jt="4" mandatory="y" />
 			<index name="PK_CALIBRE" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
 		</table>
-		<table name="CARTUCHO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="64" jt="12" mandatory="y" />
-			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<index name="PK_TIPO_CARTUCHO_0" unique="PRIMARY_KEY" >
-				<column name="ID" />
-			</index>
-		</table>
 		<table name="CHUMBO" >
 			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="64" jt="12" mandatory="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_CHUMBO" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
 		</table>
+		<table name="CONSUMO" >
+			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="DATA" type="date" jt="91" mandatory="y" />
+			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
+			<index name="PK_CONSUMO" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+			<fk name="ID_MUNICAO_CONSUMO" to_schema="PUBLIC" to_table="MUNICAO" >
+				<fk_column name="ID" pk="ID" />
+			</fk>
+		</table>
 		<table name="ESPOLETA" >
 			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="64" jt="12" mandatory="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<index name="PK_TIPO_ESPOLETA_0" unique="PRIMARY_KEY" >
+			<index name="PK_ESPOLETA" unique="PRIMARY_KEY" >
+				<column name="ID" />
+			</index>
+		</table>
+		<table name="ESTOJO" >
+			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
+			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
+			<index name="PK_ESTOJO" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
 		</table>
@@ -46,17 +57,17 @@
 		</table>
 		<table name="POLVORA" >
 			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="64" jt="12" mandatory="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<index name="PK_TIPO_POLVORA_0" unique="PRIMARY_KEY" >
+			<index name="PK_POLVORA" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
 		</table>
 		<table name="PROJETIL" >
 			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DESCRICAO" type="varchar" length="64" jt="12" mandatory="y" />
+			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<index name="PK_TIPO_PROJETIL_0" unique="PRIMARY_KEY" >
+			<index name="PK_PROJETIL" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
 		</table>
@@ -67,52 +78,41 @@
 			<index name="PK_RECARGA" unique="PRIMARY_KEY" >
 				<column name="ID" />
 			</index>
-			<fk name="ID_CARTUCHO" to_schema="PUBLIC" to_table="CARTUCHO" >
+			<fk name="ID_ESTOJO_RECARGA" to_schema="PUBLIC" to_table="ESTOJO" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
-			<fk name="ID_ESPOLETA" to_schema="PUBLIC" to_table="ESPOLETA" >
+			<fk name="ID_ESPOLETA_RECARGA" to_schema="PUBLIC" to_table="ESPOLETA" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
-			<fk name="ID_POLVORA" to_schema="PUBLIC" to_table="POLVORA" >
+			<fk name="ID_POLVORA_RECARGA" to_schema="PUBLIC" to_table="POLVORA" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
-			<fk name="ID_PROJETIL" to_schema="PUBLIC" to_table="PROJETIL" >
+			<fk name="ID_PROJETIL_RECARGA" to_schema="PUBLIC" to_table="PROJETIL" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
-			<fk name="ID_CHUMBO" to_schema="PUBLIC" to_table="CHUMBO" >
+			<fk name="ID_CHUMBO_RECARGA" to_schema="PUBLIC" to_table="CHUMBO" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
-			<fk name="ID_MUNICAO_RECARREGADA" to_schema="PUBLIC" to_table="MUNICAO" >
-				<fk_column name="ID" pk="ID" />
-			</fk>
-		</table>
-		<table name="UTILIZACAO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
-			<column name="DATA" type="date" jt="91" mandatory="y" />
-			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<index name="PK_UTILIZACAO" unique="PRIMARY_KEY" >
-				<column name="ID" />
-			</index>
-			<fk name="ID_MUNICAO_UTILIZADA" to_schema="PUBLIC" to_table="MUNICAO" >
+			<fk name="ID_MUNICAO_RECARGA" to_schema="PUBLIC" to_table="MUNICAO" >
 				<fk_column name="ID" pk="ID" />
 			</fk>
 		</table>
 	</schema>
 	<connector name="HSql" database="HSql" driver_class="org.hsqldb.jdbc.JDBCDriver" driver_jar="hsqldb.jar" host="localhost" port="9001" instance="S:\recarga\db\recarga" schema_mapping="" sshEnable="true" sshHost="localhost" sshPort="22" sshUser="recarga" sshUseKey="false" sshPassword="recarga" sshPublicKey="" sshPassphrase="" />
 	<layout id="Layout9952438" name="recarga" show_relation_columns="y" >
-		<entity schema="PUBLIC" name="CARTUCHO" color="b2cdf7" x="420" y="75" />
+		<entity schema="PUBLIC" name="CHUMBO" color="b2cdf7" x="585" y="315" />
+		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="420" y="315" />
 		<entity schema="PUBLIC" name="PROJETIL" color="b2cdf7" x="585" y="195" />
 		<entity schema="PUBLIC" name="POLVORA" color="b2cdf7" x="585" y="75" />
-		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="420" y="315" />
-		<entity schema="PUBLIC" name="CHUMBO" color="b2cdf7" x="585" y="315" />
-		<entity schema="PUBLIC" name="CALIBRE" color="b2cdf7" x="45" y="45" />
+		<entity schema="PUBLIC" name="ESTOJO" color="b2cdf7" x="420" y="75" />
 		<entity schema="PUBLIC" name="RECARGA" color="b2cdf7" x="255" y="165" />
-		<entity schema="PUBLIC" name="MUNICAO" color="b2cdf7" x="60" y="240" />
-		<entity schema="PUBLIC" name="UTILIZACAO" color="b2cdf7" x="255" y="360" />
+		<entity schema="PUBLIC" name="CONSUMO" color="b2cdf7" x="255" y="360" />
+		<entity schema="PUBLIC" name="MUNICAO" color="b2cdf7" x="45" y="255" />
+		<entity schema="PUBLIC" name="CALIBRE" color="b2cdf7" x="45" y="45" />
 		<group name="Insumos" color="c4e0f9" >
 			<entity schema="PUBLIC" name="POLVORA" />
 			<entity schema="PUBLIC" name="PROJETIL" />
-			<entity schema="PUBLIC" name="CARTUCHO" />
+			<entity schema="PUBLIC" name="ESTOJO" />
 			<entity schema="PUBLIC" name="ESPOLETA" />
 			<entity schema="PUBLIC" name="CHUMBO" />
 		</group>

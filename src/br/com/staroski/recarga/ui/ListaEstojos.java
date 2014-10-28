@@ -10,7 +10,7 @@ import javax.swing.table.*;
 import br.com.staroski.recarga.db.*;
 import br.com.staroski.recarga.db.tables.*;
 
-final class ListaCartuchos extends JPanel {
+final class ListaEstojos extends JPanel {
 
 	private class Modelo extends AbstractTableModel {
 
@@ -45,23 +45,23 @@ final class ListaCartuchos extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return getCartuchos().size();
+			return getEstojos().size();
 		}
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			Cartucho cartucho = getCartuchos().get(row);
+			Estojo estojo = getEstojos().get(row);
 			switch (col) {
 				case 0:
-					return cartucho.getDescricao();
+					return estojo.getDescricao();
 				case 1:
-					return cartucho.getQuantidade();
+					return estojo.getQuantidade();
 			}
 			return null;
 		}
 	}
 
-	private List<Cartucho> cartuchos;
+	private List<Estojo> estojos;
 
 	private static final long serialVersionUID = 1;
 
@@ -70,7 +70,7 @@ final class ListaCartuchos extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ListaCartuchos() {
+	public ListaEstojos() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
 
@@ -83,7 +83,7 @@ final class ListaCartuchos extends JPanel {
 		JButton buttonNovo = new JButton("Novo");
 		buttonNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				novoCartucho();
+				novoEstojo();
 			}
 		});
 		panel.add(buttonNovo);
@@ -91,7 +91,7 @@ final class ListaCartuchos extends JPanel {
 		JButton buttonEditar = new JButton("Editar");
 		buttonEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				editarCartucho();
+				editarEstojo();
 			}
 		});
 		panel.add(buttonEditar);
@@ -99,7 +99,7 @@ final class ListaCartuchos extends JPanel {
 		JButton buttonExcluir = new JButton("Excluir");
 		buttonExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				excluirCartucho();
+				excluirEstojo();
 			}
 		});
 		panel.add(buttonExcluir);
@@ -112,7 +112,7 @@ final class ListaCartuchos extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() > 1) {
-					editarCartucho();
+					editarEstojo();
 				}
 			}
 		});
@@ -125,45 +125,45 @@ final class ListaCartuchos extends JPanel {
 	}
 
 	private void atualizar() {
-		cartuchos = Database.get().list(Cartucho.class);
+		estojos = Database.get().load(Estojo.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
-	private void editarCartucho() {
+	private void editarEstojo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < cartuchos.size()) {
-			exibe(cartuchos.get(linha));
+		if (linha >= 0 && linha < estojos.size()) {
+			exibe(estojos.get(linha));
 		}
 	}
 
-	private void excluirCartucho() {
+	private void excluirEstojo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < cartuchos.size()) {
-			Cartucho cartucho = cartuchos.get(linha);
-			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o cartucho " + cartucho.getDescricao() + "?", "Excluir?",
+		if (linha >= 0 && linha < estojos.size()) {
+			Estojo estojo = estojos.get(linha);
+			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o estojo " + estojo.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
-				Database.get().delete(cartucho);
+				Database.get().delete(estojo);
 				atualizar();
 			}
 		}
 	}
 
-	private void exibe(Cartucho cartucho) {
-		CadastroCartucho dialogo = new CadastroCartucho(cartucho);
+	private void exibe(Estojo estojo) {
+		CadastroEstojo dialogo = new CadastroEstojo(estojo);
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();
 	}
 
-	private List<Cartucho> getCartuchos() {
-		if (cartuchos == null) {
-			cartuchos = Database.get().list(Cartucho.class);
+	private List<Estojo> getEstojos() {
+		if (estojos == null) {
+			estojos = Database.get().load(Estojo.class);
 		}
-		return cartuchos;
+		return estojos;
 	}
 
-	private void novoCartucho() {
-		exibe(new Cartucho());
+	private void novoEstojo() {
+		exibe(new Estojo());
 	}
 }

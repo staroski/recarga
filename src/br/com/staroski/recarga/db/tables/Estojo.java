@@ -4,7 +4,7 @@ import java.sql.*;
 
 import br.com.staroski.recarga.db.*;
 
-public final class Cartucho extends Table {
+public final class Estojo extends Table {
 
 	private String descricao;
 	private int quantidade;

@@ -32,7 +32,7 @@ public final class Database {
 				object.setId(-1);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw wrap(e);
 		} finally {
 			close(stmt);
 		}
@@ -42,11 +42,11 @@ public final class Database {
 		return object.getId() != -1;
 	}
 
-	public <T extends Table> List<T> list(Class<T> table) {
-		return list(table, (String) null, new Object[] {});
+	public <T extends Table> List<T> load(Class<T> table) {
+		return load(table, (String) null, new Object[] {});
 	}
 
-	public <T extends Table> List<T> list(Class<T> table, String where, Object... params) {
+	public <T extends Table> List<T> load(Class<T> table, String where, Object... params) {
 		List<T> objects = new ArrayList<>();
 		PreparedStatement stmt = null;
 		try {
@@ -57,42 +57,61 @@ public final class Database {
 				object.setId(data.getLong("id"));
 				object.initialize(data);
 				objects.add(object);
+				object.onLoad(this);
 			}
 			data.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw wrap(e);
 		} finally {
 			close(stmt);
 		}
 		return objects;
 	}
 
-	public void login(String url, Properties props) throws SQLException {
+	public <T extends Table> T loadFirst(Class<T> table) {
+		return loadFirst(table, (String) null, new Object[] {});
+	}
+
+	public <T extends Table> T loadFirst(Class<T> table, String where, Object... params) {
+		List<T> all = load(table, where, params);
+		return all.isEmpty() ? null : all.get(0);
+	}
+
+	public void login(String url, Properties props) {
 		if (connection != null) {
 			throw new IllegalStateException("Já está conectado à base de dados!");
 		}
-		System.out.println("conectando...");
-		connection = DriverManager.getConnection(url, props);
-		System.out.println("conectado!");
+		try {
+			System.out.println("conectando...");
+			connection = DriverManager.getConnection(url, props);
+			System.out.println("conectado!");
+		} catch (SQLException e) {
+			throw wrap(e);
+		}
 	}
 
-	public void login(String url, String user, String password) throws SQLException {
+	public void login(String url, String user, String password) {
 		Properties props = new Properties();
 		props.put("user", user);
 		props.put("password", password);
 		login(url, props);
 	}
 
-	public void logout() throws SQLException {
-		System.out.println("desconectando...");
-		getConnection().close();
-		this.connection = null;
-		System.out.println("desconectado!");
+	public void logout() {
+		try {
+			System.out.println("desconectando...");
+			getConnection().close();
+			this.connection = null;
+			System.out.println("desconectado!");
+		} catch (SQLException e) {
+			throw wrap(e);
+		}
 	}
 
 	public <T extends Table> void save(T object) {
 		PreparedStatement stmt = null;
 		try {
+			object.beforeSave(this);
 			if (isPersistent(object)) {
 				stmt = sqlUpdate(object);
 			} else {
@@ -104,7 +123,7 @@ public final class Database {
 			if (id.next()) {
 				object.setId(id.getLong(1));
 			}
-			object.onSave(this);
+			object.afterSave(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -120,6 +139,21 @@ public final class Database {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private Field[] getColumns(Class<?> table) {
+		Field[] array = table.getDeclaredFields();
+		List<Field> fields = new ArrayList<>();
+		fields.addAll(Arrays.asList(array));
+		for (int i = 0; i < fields.size(); i++) {
+			Field field = fields.get(i);
+			if (Modifier.isTransient(field.getModifiers())) {
+				fields.remove(i);
+				i--;
+			}
+		}
+		array = new Field[fields.size()];
+		return fields.toArray(array);
 	}
 
 	private Connection getConnection() {
@@ -165,7 +199,7 @@ public final class Database {
 
 	private <T extends Table> PreparedStatement sqlInsert(T object) throws Exception {
 		Class<?> table = object.getClass();
-		Field[] fields = table.getDeclaredFields();
+		Field[] fields = getColumns(table);
 		String[] columnsValues = prepareInsertParams(fields);
 		String sql = "insert into " + tableName(object) + " (" + columnsValues[0] + ") values (" + columnsValues[1] + ")";
 		PreparedStatement stmt = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -191,7 +225,7 @@ public final class Database {
 
 	private <T extends Table> PreparedStatement sqlUpdate(T object) throws Exception {
 		Class<?> table = object.getClass();
-		Field[] fields = table.getDeclaredFields();
+		Field[] fields = getColumns(table);
 		String columnsValues = prepareUpdateParams(fields);
 		String sql = "update " + tableName(object) + " set " + columnsValues + " where id=?";
 		PreparedStatement stmt = getConnection().prepareStatement(sql);
@@ -211,5 +245,13 @@ public final class Database {
 
 	private <T extends Table> String tableName(T object) {
 		return tableName(object.getClass());
+	}
+
+	private RuntimeException wrap(Throwable t) {
+		t.printStackTrace();
+		if (t instanceof RuntimeException) {
+			return (RuntimeException) t;
+		}
+		return new RuntimeException(t);
 	}
 }

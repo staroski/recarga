@@ -7,11 +7,11 @@ import br.com.staroski.recarga.db.*;
 public final class Calibre extends Table {
 
 	private String descricao;
-	private double carga;
+	private double polvora;
 	private int chumbos;
 
-	public double getCarga() {
-		return carga;
+	public double getPolvora() {
+		return polvora;
 	}
 
 	public int getChumbos() {
@@ -22,8 +22,8 @@ public final class Calibre extends Table {
 		return descricao;
 	}
 
-	public void setCarga(double carga) {
-		this.carga = carga;
+	public void setPolvora(double polvora) {
+		this.polvora = polvora;
 	}
 
 	public void setChumbos(int chumbos) {
@@ -37,7 +37,7 @@ public final class Calibre extends Table {
 	@Override
 	protected void initialize(ResultSet data) throws SQLException {
 		descricao = data.getString("descricao");
-		carga = data.getDouble("carga");
+		polvora = data.getDouble("polvora");
 		chumbos = data.getInt("chumbos");
 	}
 }

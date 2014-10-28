@@ -2,6 +2,7 @@ package br.com.staroski.recarga.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -9,44 +10,41 @@ import javax.swing.border.*;
 import br.com.staroski.recarga.db.*;
 import br.com.staroski.recarga.db.tables.*;
 
-final class CadastroCartucho extends JDialog {
+final class CadastroMunicao extends JDialog {
+
+	private class ModeloCalibres extends DefaultComboBoxModel<String> {
+
+		private static final long serialVersionUID = 1;
+
+		@Override
+		public String getElementAt(int linha) {
+			if (linha == 0) {
+				return "Selecione...";
+			}
+			Calibre calibre = getCalibres().get(linha - 1);
+			return calibre.getDescricao();
+		}
+
+		@Override
+		public int getSize() {
+			return getCalibres().size() + 1;
+		}
+	}
+
+	private List<Calibre> calibres;
 
 	private static final long serialVersionUID = 1;
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldDescricao;
+
+	private JComboBox<String> comboBoxCalibre;
 	private JTextField textFieldQuantidade;
-
-	private Cartucho cartucho;
-
-	private void salvar() {
-		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (opcao == JOptionPane.YES_OPTION) {
-			cartucho.setDescricao(textFieldDescricao.getText().trim());
-			cartucho.setQuantidade(Integer.parseInt(textFieldQuantidade.getText().trim()));
-			Database.get().save(cartucho);
-			dispose();
-		}
-	}
-
-	private void cancelar() {
-		int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente cancelar?", "Cancelar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (opcao == JOptionPane.YES_OPTION) {
-			dispose();
-		}
-	}
-
-	public CadastroCartucho(Cartucho cartucho) {
-		this();
-		this.cartucho = cartucho;
-		textFieldDescricao.setText(cartucho.getDescricao());
-		textFieldQuantidade.setText(String.valueOf(cartucho.getQuantidade()));
-	}
+	private Municao municao;
 
 	/**
 	 * Create the dialog.
 	 */
-	public CadastroCartucho() {
+	public CadastroMunicao() {
 		setModal(true);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -55,7 +53,7 @@ final class CadastroCartucho extends JDialog {
 			}
 		});
 		setResizable(false);
-		setTitle("Cartucho");
+		setTitle("Munição");
 		setBounds(100, 100, 310, 140);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,7 +65,7 @@ final class CadastroCartucho extends JDialog {
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 
-		JLabel lblNewLabel = new JLabel("Descri\u00E7\u00E3o:");
+		JLabel lblNewLabel = new JLabel("Calibre:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;
 		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -85,16 +83,16 @@ final class CadastroCartucho extends JDialog {
 		gbc_lblNewLabel_2.gridy = 0;
 		contentPanel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		textFieldDescricao = new JTextField();
-		textFieldDescricao.setAlignmentX(Component.LEFT_ALIGNMENT);
-		GridBagConstraints gbc_textFieldDescricao = new GridBagConstraints();
-		gbc_textFieldDescricao.anchor = GridBagConstraints.NORTH;
-		gbc_textFieldDescricao.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldDescricao.insets = new Insets(0, 0, 0, 5);
-		gbc_textFieldDescricao.gridx = 0;
-		gbc_textFieldDescricao.gridy = 1;
-		contentPanel.add(textFieldDescricao, gbc_textFieldDescricao);
-		textFieldDescricao.setColumns(10);
+		comboBoxCalibre = new JComboBox<String>();
+		comboBoxCalibre.setEditable(true);
+		comboBoxCalibre.setAlignmentX(Component.LEFT_ALIGNMENT);
+		GridBagConstraints gbc_comboBoxCalibre = new GridBagConstraints();
+		gbc_comboBoxCalibre.anchor = GridBagConstraints.NORTH;
+		gbc_comboBoxCalibre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBoxCalibre.insets = new Insets(0, 0, 0, 5);
+		gbc_comboBoxCalibre.gridx = 0;
+		gbc_comboBoxCalibre.gridy = 1;
+		contentPanel.add(comboBoxCalibre, gbc_comboBoxCalibre);
 
 		textFieldQuantidade = new JTextField();
 		textFieldQuantidade.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -128,6 +126,41 @@ final class CadastroCartucho extends JDialog {
 				});
 				buttonPane.add(cancelButton);
 			}
+		}
+	}
+
+	public CadastroMunicao(Municao municao) {
+		this();
+		comboBoxCalibre.setModel(new ModeloCalibres());
+		this.municao = municao;
+		Calibre calibre = municao.getCalibre();
+		int linha = getCalibres().indexOf(calibre);
+		comboBoxCalibre.setSelectedIndex(linha + 1);
+		textFieldQuantidade.setText(String.valueOf(municao.getQuantidade()));
+	}
+
+	private List<Calibre> getCalibres() {
+		if (calibres == null) {
+			calibres = Database.get().load(Calibre.class);
+		}
+		return calibres;
+	}
+
+	private void cancelar() {
+		int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente cancelar?", "Cancelar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (opcao == JOptionPane.YES_OPTION) {
+			dispose();
+		}
+	}
+
+	private void salvar() {
+		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (opcao == JOptionPane.YES_OPTION) {
+			Calibre calibre = getCalibres().get(comboBoxCalibre.getSelectedIndex() - 1);
+			municao.setCalibre(calibre);
+			municao.setQuantidade(Integer.parseInt(textFieldQuantidade.getText().trim()));
+			Database.get().save(municao);
+			dispose();
 		}
 	}
 

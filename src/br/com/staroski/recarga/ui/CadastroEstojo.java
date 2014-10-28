@@ -9,24 +9,22 @@ import javax.swing.border.*;
 import br.com.staroski.recarga.db.*;
 import br.com.staroski.recarga.db.tables.*;
 
-final class CadastroCalibre extends JDialog {
+final class CadastroEstojo extends JDialog {
 
 	private static final long serialVersionUID = 1;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldDescricao;
-	private JTextField textFieldChumbos;
-	private JTextField textFieldPolvora;
+	private JTextField textFieldQuantidade;
 
-	private Calibre calibre;
+	private Estojo estojo;
 
 	private void salvar() {
 		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (opcao == JOptionPane.YES_OPTION) {
-			calibre.setDescricao(textFieldDescricao.getText().trim());
-			calibre.setChumbos(Integer.parseInt(textFieldChumbos.getText().trim()));
-			calibre.setPolvora(Double.parseDouble(textFieldPolvora.getText().trim()));
-			Database.get().save(calibre);
+			estojo.setDescricao(textFieldDescricao.getText().trim());
+			estojo.setQuantidade(Integer.parseInt(textFieldQuantidade.getText().trim()));
+			Database.get().save(estojo);
 			dispose();
 		}
 	}
@@ -38,18 +36,17 @@ final class CadastroCalibre extends JDialog {
 		}
 	}
 
-	public CadastroCalibre(Calibre calibre) {
+	public CadastroEstojo(Estojo estojo) {
 		this();
-		this.calibre = calibre;
-		textFieldDescricao.setText(calibre.getDescricao());
-		textFieldChumbos.setText(String.valueOf(calibre.getChumbos()));
-		textFieldPolvora.setText(String.valueOf(calibre.getPolvora()));
+		this.estojo = estojo;
+		textFieldDescricao.setText(estojo.getDescricao());
+		textFieldQuantidade.setText(String.valueOf(estojo.getQuantidade()));
 	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public CadastroCalibre() {
+	public CadastroEstojo() {
 		setModal(true);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -58,15 +55,15 @@ final class CadastroCalibre extends JDialog {
 			}
 		});
 		setResizable(false);
-		setTitle("Calibre");
-		setBounds(100, 100, 420, 140);
+		setTitle("Estojo");
+		setBounds(100, 100, 310, 140);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[] { 200, 100, 100, 0 };
+		gbl_contentPanel.columnWidths = new int[] { 189, 95, 0 };
 		gbl_contentPanel.rowHeights = new int[] { 14, 20, 0 };
-		gbl_contentPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_contentPanel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 
@@ -79,21 +76,12 @@ final class CadastroCalibre extends JDialog {
 		gbc_lblNewLabel.gridy = 0;
 		contentPanel.add(lblNewLabel, gbc_lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Chumbos:");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTH;
-		gbc_lblNewLabel_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 0;
-		contentPanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-
-		JLabel lblNewLabel_2 = new JLabel("P\u00F3lvora:");
+		JLabel lblNewLabel_2 = new JLabel("Quantidade:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.NORTH;
 		gbc_lblNewLabel_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_2.gridx = 2;
+		gbc_lblNewLabel_2.gridx = 1;
 		gbc_lblNewLabel_2.gridy = 0;
 		contentPanel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
@@ -108,26 +96,15 @@ final class CadastroCalibre extends JDialog {
 		contentPanel.add(textFieldDescricao, gbc_textFieldDescricao);
 		textFieldDescricao.setColumns(10);
 
-		textFieldChumbos = new JTextField();
-		textFieldChumbos.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_textFieldChumbos = new GridBagConstraints();
-		gbc_textFieldChumbos.anchor = GridBagConstraints.NORTH;
-		gbc_textFieldChumbos.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldChumbos.insets = new Insets(0, 0, 0, 5);
-		gbc_textFieldChumbos.gridx = 1;
-		gbc_textFieldChumbos.gridy = 1;
-		contentPanel.add(textFieldChumbos, gbc_textFieldChumbos);
-		textFieldChumbos.setColumns(10);
-
-		textFieldPolvora = new JTextField();
-		textFieldPolvora.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_textFieldPolvora = new GridBagConstraints();
-		gbc_textFieldPolvora.anchor = GridBagConstraints.NORTH;
-		gbc_textFieldPolvora.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldPolvora.gridx = 2;
-		gbc_textFieldPolvora.gridy = 1;
-		contentPanel.add(textFieldPolvora, gbc_textFieldPolvora);
-		textFieldPolvora.setColumns(10);
+		textFieldQuantidade = new JTextField();
+		textFieldQuantidade.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_textFieldQuantidade = new GridBagConstraints();
+		gbc_textFieldQuantidade.anchor = GridBagConstraints.NORTH;
+		gbc_textFieldQuantidade.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldQuantidade.gridx = 1;
+		gbc_textFieldQuantidade.gridy = 1;
+		contentPanel.add(textFieldQuantidade, gbc_textFieldQuantidade);
+		textFieldQuantidade.setColumns(10);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -153,5 +130,4 @@ final class CadastroCalibre extends JDialog {
 			}
 		}
 	}
-
 }

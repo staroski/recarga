@@ -125,7 +125,7 @@ final class ListaChumbos extends JPanel {
 	}
 
 	private void atualizar() {
-		chumbos = Database.get().list(Chumbo.class);
+		chumbos = Database.get().load(Chumbo.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
@@ -158,7 +158,7 @@ final class ListaChumbos extends JPanel {
 
 	private List<Chumbo> getChumbos() {
 		if (chumbos == null) {
-			chumbos = Database.get().list(Chumbo.class);
+			chumbos = Database.get().load(Chumbo.class);
 		}
 		return chumbos;
 	}
