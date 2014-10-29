@@ -1,34 +1,55 @@
 package br.com.staroski.recarga.db;
 
+import java.lang.reflect.*;
 import java.sql.*;
 
 public abstract class Table {
 
-	private long id = -1;
+	private transient Field id;
 
 	public final long getId() {
-		return id;
+		try {
+			return getIdColumn().getLong(this);
+		} catch (Exception e) {
+			throw Database.wrap(e);
+		}
 	}
 
 	public final void setId(long id) {
-		this.id = id;
+		try {
+			getIdColumn().setLong(this, id);
+		} catch (Exception e) {
+			throw Database.wrap(e);
+		}
 	}
 
-	protected abstract void initialize(ResultSet data) throws SQLException;
+	private Field getIdColumn() {
+		if (id == null) {
+			try {
+				id = getClass().getDeclaredField(Database.idColumn(this));
+				id.setAccessible(true);
+			} catch (Exception e) {
+				throw Database.wrap(e);
+			}
+		}
+		return id;
+	}
 
-	protected void onLoad(Database db) throws SQLException {
+	protected void afterSave(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
 
 	protected void beforeSave(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
-	
-	protected void afterSave(Database db) throws SQLException {
+
+	protected abstract void initialize(ResultSet data) throws SQLException;
+
+	protected void onDelete(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
 
-	protected void onDelete(Database db) throws SQLException {
+	protected void onLoad(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
 }

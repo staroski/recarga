@@ -17,6 +17,30 @@ public final class Database {
 		return Holder.INSTANCE;
 	}
 
+	private static String idColumn(Class<?> clazz) {
+		return ("id_" + clazz.getSimpleName()).toLowerCase();
+	}
+
+	private static String tableName(Class<?> clazz) {
+		return clazz.getSimpleName();
+	}
+
+	private static <T extends Table> String tableName(T object) {
+		return tableName(object.getClass());
+	}
+
+	static <T extends Table> String idColumn(T object) {
+		return idColumn(object.getClass());
+	}
+
+	static RuntimeException wrap(Throwable t) {
+		t.printStackTrace();
+		if (t instanceof RuntimeException) {
+			return (RuntimeException) t;
+		}
+		return new RuntimeException(t);
+	}
+
 	private Connection connection;
 
 	private Database() {}
@@ -54,7 +78,7 @@ public final class Database {
 			ResultSet data = stmt.executeQuery();
 			while (data.next()) {
 				T object = table.newInstance();
-				object.setId(data.getLong("id"));
+				object.setId(data.getLong(idColumn(table)));
 				object.initialize(data);
 				objects.add(object);
 				object.onLoad(this);
@@ -147,7 +171,7 @@ public final class Database {
 		fields.addAll(Arrays.asList(array));
 		for (int i = 0; i < fields.size(); i++) {
 			Field field = fields.get(i);
-			if (Modifier.isTransient(field.getModifiers())) {
+			if (ignore(field)) {
 				fields.remove(i);
 				i--;
 			}
@@ -161,6 +185,18 @@ public final class Database {
 			throw new IllegalStateException("Não está conectado à base de dados!");
 		}
 		return connection;
+	}
+
+	private boolean ignore(Field field) {
+		// se é transiente, ignora
+		if (Modifier.isTransient(field.getModifiers())) {
+			return true;
+		}
+		// tenta verificar se não é a coluna do id
+		if (field.getName().equalsIgnoreCase(idColumn(field.getDeclaringClass()))) {
+			return true;
+		}
+		return false;
 	}
 
 	private String[] prepareInsertParams(Field[] fields) {
@@ -191,7 +227,7 @@ public final class Database {
 	}
 
 	private <T extends Table> PreparedStatement sqlDelete(T object) throws Exception {
-		String sql = "delete from " + tableName(object) + " where id=?";
+		String sql = "delete from " + tableName(object) + " where " + idColumn(object) + "=?";
 		PreparedStatement stmt = getConnection().prepareStatement(sql);
 		stmt.setLong(1, object.getId());
 		return stmt;
@@ -227,7 +263,7 @@ public final class Database {
 		Class<?> table = object.getClass();
 		Field[] fields = getColumns(table);
 		String columnsValues = prepareUpdateParams(fields);
-		String sql = "update " + tableName(object) + " set " + columnsValues + " where id=?";
+		String sql = "update " + tableName(object) + " set " + columnsValues + " where " + idColumn(object) + "=?";
 		PreparedStatement stmt = getConnection().prepareStatement(sql);
 		int count = fields.length;
 		for (int i = 0; i < count; i++) {
@@ -237,21 +273,5 @@ public final class Database {
 		}
 		stmt.setLong(count + 1, object.getId());
 		return stmt;
-	}
-
-	private <T extends Table> String tableName(Class<T> clazz) {
-		return clazz.getSimpleName();
-	}
-
-	private <T extends Table> String tableName(T object) {
-		return tableName(object.getClass());
-	}
-
-	private RuntimeException wrap(Throwable t) {
-		t.printStackTrace();
-		if (t instanceof RuntimeException) {
-			return (RuntimeException) t;
-		}
-		return new RuntimeException(t);
 	}
 }

@@ -6,10 +6,11 @@ import br.com.staroski.recarga.db.*;
 
 public final class Municao extends Table {
 
-	private long id_calibre = -1;
-	private transient Calibre calibre;
-
+	private long id_municao = -1;
+	private long id_municao_calibre = -1;
 	private int quantidade;
+
+	private transient Calibre calibre;
 
 	public Calibre getCalibre() {
 		return calibre;
@@ -28,22 +29,22 @@ public final class Municao extends Table {
 	}
 
 	@Override
+	protected void beforeSave(Database db) throws SQLException {
+		if (calibre != null) {
+			db.save(calibre);
+			id_municao_calibre = calibre.getId();
+		}
+	}
+
+	@Override
 	protected void initialize(ResultSet data) throws SQLException {
 		quantidade = data.getInt("quantidade");
-		id_calibre = data.getLong("id_calibre");
+		id_municao_calibre = data.getLong("id_municao_calibre");
 	}
 
 	@Override
 	protected void onLoad(Database db) throws SQLException {
-		calibre = db.loadFirst(Calibre.class, "id", id_calibre);
-	}
-
-	@Override
-	protected void beforeSave(Database db) throws SQLException {
-		if (calibre != null) {
-			db.save(calibre);
-			id_calibre = calibre.getId();
-		}
+		calibre = db.loadFirst(Calibre.class, "id_calibre=?", id_municao_calibre);
 	}
 
 }

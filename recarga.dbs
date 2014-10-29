@@ -2,113 +2,145 @@
 <project name="recarga" id="Project9952436" template="Default" database="HSql" >
 	<schema name="PUBLIC" schemaname="PUBLIC" >
 		<table name="CALIBRE" >
-			<column name="ID" type="integer" jt="4" mandatory="y" autoincrement="y" />
+			<column name="ID_CALIBRE" type="integer" jt="4" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="POLVORA" type="numeric" length="6" decimal="3" jt="2" mandatory="y" />
 			<column name="CHUMBOS" type="integer" jt="4" mandatory="y" />
 			<index name="PK_CALIBRE" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_CALIBRE" />
 			</index>
 		</table>
 		<table name="CHUMBO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_CHUMBO" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_CHUMBO" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_CHUMBO" />
 			</index>
 		</table>
 		<table name="CONSUMO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_CONSUMO" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DATA" type="date" jt="91" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
+			<column name="ID_CONSUMO_MUNICAO" type="numeric" jt="2" mandatory="y" />
 			<index name="PK_CONSUMO" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_CONSUMO" />
 			</index>
-			<fk name="ID_MUNICAO_CONSUMO" to_schema="PUBLIC" to_table="MUNICAO" >
-				<fk_column name="ID" pk="ID" />
+			<index name="IDX_CONSUMO" unique="NORMAL" >
+				<column name="ID_CONSUMO_MUNICAO" />
+			</index>
+			<fk name="FK_CONSUMO_MUNICAO" to_schema="PUBLIC" to_table="MUNICAO" >
+				<fk_column name="ID_CONSUMO_MUNICAO" pk="ID_MUNICAO" />
 			</fk>
 		</table>
 		<table name="ESPOLETA" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_ESPOLETA" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_ESPOLETA" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_ESPOLETA" />
 			</index>
 		</table>
 		<table name="ESTOJO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_ESTOJO" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_ESTOJO" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_ESTOJO" />
 			</index>
 		</table>
 		<table name="MUNICAO" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_MUNICAO" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
+			<column name="ID_MUNICAO_CALIBRE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_MUNICAO" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_MUNICAO" />
 			</index>
-			<fk name="ID_CALIBRE" to_schema="PUBLIC" to_table="CALIBRE" >
-				<fk_column name="ID" pk="ID" />
+			<index name="IDX_MUNICAO" unique="NORMAL" >
+				<column name="ID_MUNICAO_CALIBRE" />
+			</index>
+			<fk name="FK_MUNICAO_CALIBRE" to_schema="PUBLIC" to_table="CALIBRE" >
+				<fk_column name="ID_MUNICAO_CALIBRE" pk="ID_CALIBRE" />
 			</fk>
 		</table>
 		<table name="POLVORA" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_POLVORA" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_POLVORA" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_POLVORA" />
 			</index>
 		</table>
 		<table name="PROJETIL" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_PROJETIL" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
 			<index name="PK_PROJETIL" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_PROJETIL" />
 			</index>
 		</table>
 		<table name="RECARGA" >
-			<column name="ID" type="numeric" jt="2" mandatory="y" autoincrement="y" />
+			<column name="ID_RECARGA" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DATA" type="date" jt="91" mandatory="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
+			<column name="ID_RECARGA_ESTOJO" type="numeric" jt="2" mandatory="y" />
+			<column name="ID_RECARGA_ESPOLETA" type="numeric" jt="2" mandatory="y" />
+			<column name="ID_RECARGA_POLVORA" type="numeric" jt="2" mandatory="y" />
+			<column name="ID_RECARGA_PROJETIL" type="numeric" jt="2" mandatory="y" />
+			<column name="ID_RECARGA_CHUMBO" type="numeric" jt="2" mandatory="y" />
+			<column name="ID_RECARGA_MUNICAO" type="numeric" jt="2" mandatory="y" />
 			<index name="PK_RECARGA" unique="PRIMARY_KEY" >
-				<column name="ID" />
+				<column name="ID_RECARGA" />
 			</index>
-			<fk name="ID_ESTOJO_RECARGA" to_schema="PUBLIC" to_table="ESTOJO" >
-				<fk_column name="ID" pk="ID" />
+			<index name="IDX_RECARGA" unique="NORMAL" >
+				<column name="ID_RECARGA_ESTOJO" />
+			</index>
+			<index name="IDX_RECARGA_0" unique="NORMAL" >
+				<column name="ID_RECARGA_ESPOLETA" />
+			</index>
+			<index name="IDX_RECARGA_1" unique="NORMAL" >
+				<column name="ID_RECARGA_POLVORA" />
+			</index>
+			<index name="IDX_RECARGA_2" unique="NORMAL" >
+				<column name="ID_RECARGA_PROJETIL" />
+			</index>
+			<index name="IDX_RECARGA_3" unique="NORMAL" >
+				<column name="ID_RECARGA_CHUMBO" />
+			</index>
+			<index name="IDX_RECARGA_4" unique="NORMAL" >
+				<column name="ID_RECARGA_MUNICAO" />
+			</index>
+			<fk name="FK_RECARGA_ESTOJO" to_schema="PUBLIC" to_table="ESTOJO" >
+				<fk_column name="ID_RECARGA_ESTOJO" pk="ID_ESTOJO" />
 			</fk>
-			<fk name="ID_ESPOLETA_RECARGA" to_schema="PUBLIC" to_table="ESPOLETA" >
-				<fk_column name="ID" pk="ID" />
+			<fk name="FK_RECARGA_ESPOLETA" to_schema="PUBLIC" to_table="ESPOLETA" >
+				<fk_column name="ID_RECARGA_ESPOLETA" pk="ID_ESPOLETA" />
 			</fk>
-			<fk name="ID_POLVORA_RECARGA" to_schema="PUBLIC" to_table="POLVORA" >
-				<fk_column name="ID" pk="ID" />
+			<fk name="FK_RECARGA_POLVORA" to_schema="PUBLIC" to_table="POLVORA" >
+				<fk_column name="ID_RECARGA_POLVORA" pk="ID_POLVORA" />
 			</fk>
-			<fk name="ID_PROJETIL_RECARGA" to_schema="PUBLIC" to_table="PROJETIL" >
-				<fk_column name="ID" pk="ID" />
+			<fk name="FK_RECARGA_PROJETIL" to_schema="PUBLIC" to_table="PROJETIL" >
+				<fk_column name="ID_RECARGA_PROJETIL" pk="ID_PROJETIL" />
 			</fk>
-			<fk name="ID_CHUMBO_RECARGA" to_schema="PUBLIC" to_table="CHUMBO" >
-				<fk_column name="ID" pk="ID" />
+			<fk name="FK_RECARGA_CHUMBO" to_schema="PUBLIC" to_table="CHUMBO" >
+				<fk_column name="ID_RECARGA_CHUMBO" pk="ID_CHUMBO" />
 			</fk>
-			<fk name="ID_MUNICAO_RECARGA" to_schema="PUBLIC" to_table="MUNICAO" >
-				<fk_column name="ID" pk="ID" />
+			<fk name="FK_RECARGA_MUNICAO" to_schema="PUBLIC" to_table="MUNICAO" >
+				<fk_column name="ID_RECARGA_MUNICAO" pk="ID_MUNICAO" />
 			</fk>
 		</table>
 	</schema>
 	<connector name="HSql" database="HSql" driver_class="org.hsqldb.jdbc.JDBCDriver" driver_jar="hsqldb.jar" host="localhost" port="9001" instance="S:\recarga\db\recarga" schema_mapping="" sshEnable="true" sshHost="localhost" sshPort="22" sshUser="recarga" sshUseKey="false" sshPassword="recarga" sshPublicKey="" sshPassphrase="" />
 	<layout id="Layout9952438" name="recarga" show_relation_columns="y" >
-		<entity schema="PUBLIC" name="CHUMBO" color="b2cdf7" x="585" y="315" />
-		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="420" y="315" />
-		<entity schema="PUBLIC" name="PROJETIL" color="b2cdf7" x="585" y="195" />
-		<entity schema="PUBLIC" name="POLVORA" color="b2cdf7" x="585" y="75" />
-		<entity schema="PUBLIC" name="ESTOJO" color="b2cdf7" x="420" y="75" />
-		<entity schema="PUBLIC" name="RECARGA" color="b2cdf7" x="255" y="165" />
-		<entity schema="PUBLIC" name="CONSUMO" color="b2cdf7" x="255" y="360" />
-		<entity schema="PUBLIC" name="MUNICAO" color="b2cdf7" x="45" y="255" />
 		<entity schema="PUBLIC" name="CALIBRE" color="b2cdf7" x="45" y="45" />
+		<entity schema="PUBLIC" name="ESTOJO" color="b2cdf7" x="600" y="90" />
+		<entity schema="PUBLIC" name="POLVORA" color="b2cdf7" x="765" y="90" />
+		<entity schema="PUBLIC" name="PROJETIL" color="b2cdf7" x="765" y="210" />
+		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="600" y="330" />
+		<entity schema="PUBLIC" name="CHUMBO" color="b2cdf7" x="765" y="330" />
+		<entity schema="PUBLIC" name="CONSUMO" color="b2cdf7" x="240" y="405" />
+		<entity schema="PUBLIC" name="MUNICAO" color="b2cdf7" x="45" y="255" />
+		<entity schema="PUBLIC" name="RECARGA" color="b2cdf7" x="285" y="165" />
 		<group name="Insumos" color="c4e0f9" >
 			<entity schema="PUBLIC" name="POLVORA" />
 			<entity schema="PUBLIC" name="PROJETIL" />

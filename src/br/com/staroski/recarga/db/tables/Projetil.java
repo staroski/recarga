@@ -6,13 +6,13 @@ import br.com.staroski.recarga.db.*;
 
 public final class Projetil extends Table {
 
+	private long id_projetil = -1;
 	private String descricao;
 	private int quantidade;
 
 	public String getDescricao() {
 		return descricao;
 	}
-
 	public int getQuantidade() {
 		return quantidade;
 	}

@@ -134,8 +134,7 @@ final class CadastroMunicao extends JDialog {
 		comboBoxCalibre.setModel(new ModeloCalibres());
 		this.municao = municao;
 		Calibre calibre = municao.getCalibre();
-		int linha = getCalibres().indexOf(calibre);
-		comboBoxCalibre.setSelectedIndex(linha + 1);
+		comboBoxCalibre.setSelectedItem(calibre.getDescricao());
 		textFieldQuantidade.setText(String.valueOf(municao.getQuantidade()));
 	}
 

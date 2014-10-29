@@ -6,13 +6,13 @@ import br.com.staroski.recarga.db.*;
 
 public final class Chumbo extends Table {
 
+	private long id_chumbo = -1;
 	private String descricao;
 	private int quantidade;
-
+	
 	public String getDescricao() {
 		return descricao;
 	}
-
 	public int getQuantidade() {
 		return quantidade;
 	}

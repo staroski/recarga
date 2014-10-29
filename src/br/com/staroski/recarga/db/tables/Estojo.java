@@ -6,9 +6,10 @@ import br.com.staroski.recarga.db.*;
 
 public final class Estojo extends Table {
 
+	private long id_estojo = -1;
 	private String descricao;
 	private int quantidade;
-
+	
 	public String getDescricao() {
 		return descricao;
 	}

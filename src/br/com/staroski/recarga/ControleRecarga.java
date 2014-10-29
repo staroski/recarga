@@ -1,7 +1,6 @@
 package br.com.staroski.recarga;
 
 import java.awt.event.*;
-import java.sql.*;
 
 import javax.swing.*;
 
@@ -34,7 +33,7 @@ public final class ControleRecarga {
 	private void login() {
 		try {
 			Database.get().login("jdbc:hsqldb:file:db/recarga", "SA", "");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -43,7 +42,7 @@ public final class ControleRecarga {
 		try {
 			Database.get().logout();
 			System.exit(0);
-		} catch (SQLException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}

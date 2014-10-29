@@ -6,13 +6,10 @@ import br.com.staroski.recarga.db.*;
 
 public final class Calibre extends Table {
 
+	private long id_calibre = -1;
 	private String descricao;
 	private double polvora;
 	private int chumbos;
-
-	public double getPolvora() {
-		return polvora;
-	}
 
 	public int getChumbos() {
 		return chumbos;
@@ -22,8 +19,8 @@ public final class Calibre extends Table {
 		return descricao;
 	}
 
-	public void setPolvora(double polvora) {
-		this.polvora = polvora;
+	public double getPolvora() {
+		return polvora;
 	}
 
 	public void setChumbos(int chumbos) {
@@ -32,6 +29,10 @@ public final class Calibre extends Table {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public void setPolvora(double polvora) {
+		this.polvora = polvora;
 	}
 
 	@Override
