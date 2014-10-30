@@ -27,8 +27,8 @@ public final class Estojo extends Table {
 	}
 
 	@Override
-	protected void initialize(ResultSet data) throws SQLException {
-		descricao = data.getString("descricao");
-		quantidade = data.getInt("quantidade");
+	protected void initialize(ResultSet rs) throws SQLException {
+		descricao = rs.getString("descricao");
+		quantidade = rs.getInt("quantidade");
 	}
 }

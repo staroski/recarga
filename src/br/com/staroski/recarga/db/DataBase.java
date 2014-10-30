@@ -92,11 +92,7 @@ public final class Database {
 		return objects;
 	}
 
-	public <T extends Table> T loadFirst(Class<T> table) {
-		return loadFirst(table, (String) null, new Object[] {});
-	}
-
-	public <T extends Table> T loadFirst(Class<T> table, String where, Object... params) {
+	public <T extends Table> T find(Class<T> table, String where, Object... params) {
 		List<T> all = load(table, where, params);
 		return all.isEmpty() ? null : all.get(0);
 	}

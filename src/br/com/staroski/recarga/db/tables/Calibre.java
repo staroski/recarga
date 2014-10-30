@@ -36,9 +36,9 @@ public final class Calibre extends Table {
 	}
 
 	@Override
-	protected void initialize(ResultSet data) throws SQLException {
-		descricao = data.getString("descricao");
-		polvora = data.getDouble("polvora");
-		chumbos = data.getInt("chumbos");
+	protected void initialize(ResultSet rs) throws SQLException {
+		descricao = rs.getString("descricao");
+		polvora = rs.getDouble("polvora");
+		chumbos = rs.getInt("chumbos");
 	}
 }

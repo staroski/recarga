@@ -37,14 +37,13 @@ public final class Municao extends Table {
 	}
 
 	@Override
-	protected void initialize(ResultSet data) throws SQLException {
-		quantidade = data.getInt("quantidade");
-		id_municao_calibre = data.getLong("id_municao_calibre");
+	protected void initialize(ResultSet rs) throws SQLException {
+		quantidade = rs.getInt("quantidade");
+		id_municao_calibre = rs.getLong("id_municao_calibre");
 	}
 
 	@Override
 	protected void onLoad(Database db) throws SQLException {
-		calibre = db.loadFirst(Calibre.class, "id_calibre=?", id_municao_calibre);
+		calibre = db.find(Calibre.class, "id_calibre=?", id_municao_calibre);
 	}
-
 }

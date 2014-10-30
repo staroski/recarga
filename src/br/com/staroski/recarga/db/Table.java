@@ -43,7 +43,7 @@ public abstract class Table {
 		// implementação padrão não faz nada, subclasses podem especializar
 	}
 
-	protected abstract void initialize(ResultSet data) throws SQLException;
+	protected abstract void initialize(ResultSet rs) throws SQLException;
 
 	protected void onDelete(Database db) throws SQLException {
 		// implementação padrão não faz nada, subclasses podem especializar
