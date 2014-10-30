@@ -6,8 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class CadastroCalibre extends JDialog {
 

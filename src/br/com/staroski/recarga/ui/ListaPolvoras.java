@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaPolvoras extends JPanel {
 
@@ -60,8 +59,6 @@ final class ListaPolvoras extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Polvora> polvoras;
 
 	private static final long serialVersionUID = 1;
 
@@ -125,21 +122,20 @@ final class ListaPolvoras extends JPanel {
 	}
 
 	private void atualizar() {
-		polvoras = Database.get().load(Polvora.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarPolvora() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < polvoras.size()) {
-			exibe(polvoras.get(linha));
+		if (linha >= 0 && linha < getPolvoras().size()) {
+			exibe(getPolvoras().get(linha));
 		}
 	}
 
 	private void excluirPolvora() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < polvoras.size()) {
-			Polvora polvora = polvoras.get(linha);
+		if (linha >= 0 && linha < getPolvoras().size()) {
+			Polvora polvora = getPolvoras().get(linha);
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o polvora " + polvora.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
@@ -157,10 +153,7 @@ final class ListaPolvoras extends JPanel {
 	}
 
 	private List<Polvora> getPolvoras() {
-		if (polvoras == null) {
-			polvoras = Database.get().load(Polvora.class);
-		}
-		return polvoras;
+		return Database.get().getPolvoras();
 	}
 
 	private void novoPolvora() {

@@ -2,7 +2,7 @@
 <project name="recarga" id="Project9952436" template="Default" database="HSql" >
 	<schema name="PUBLIC" schemaname="PUBLIC" >
 		<table name="CALIBRE" >
-			<column name="ID_CALIBRE" type="integer" jt="4" mandatory="y" autoincrement="y" />
+			<column name="ID_CALIBRE" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="DESCRICAO" type="varchar" length="128" jt="12" mandatory="y" />
 			<column name="POLVORA" type="numeric" length="6" decimal="3" jt="2" mandatory="y" />
 			<column name="CHUMBOS" type="integer" jt="4" mandatory="y" />
@@ -52,7 +52,7 @@
 		<table name="MUNICAO" >
 			<column name="ID_MUNICAO" type="numeric" jt="2" mandatory="y" autoincrement="y" />
 			<column name="QUANTIDADE" type="integer" jt="4" mandatory="y" />
-			<column name="ID_MUNICAO_CALIBRE" type="integer" jt="4" mandatory="y" />
+			<column name="ID_MUNICAO_CALIBRE" type="numeric" jt="2" mandatory="y" />
 			<index name="PK_MUNICAO" unique="PRIMARY_KEY" >
 				<column name="ID_MUNICAO" />
 			</index>
@@ -133,14 +133,14 @@
 	<connector name="HSql" database="HSql" driver_class="org.hsqldb.jdbc.JDBCDriver" driver_jar="hsqldb.jar" host="localhost" port="9001" instance="S:\recarga\db\recarga" schema_mapping="" sshEnable="true" sshHost="localhost" sshPort="22" sshUser="recarga" sshUseKey="false" sshPassword="recarga" sshPublicKey="" sshPassphrase="" />
 	<layout id="Layout9952438" name="recarga" show_relation_columns="y" >
 		<entity schema="PUBLIC" name="CALIBRE" color="b2cdf7" x="45" y="45" />
+		<entity schema="PUBLIC" name="RECARGA" color="b2cdf7" x="285" y="165" />
+		<entity schema="PUBLIC" name="CONSUMO" color="b2cdf7" x="240" y="405" />
 		<entity schema="PUBLIC" name="ESTOJO" color="b2cdf7" x="600" y="90" />
 		<entity schema="PUBLIC" name="POLVORA" color="b2cdf7" x="765" y="90" />
 		<entity schema="PUBLIC" name="PROJETIL" color="b2cdf7" x="765" y="210" />
-		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="600" y="330" />
 		<entity schema="PUBLIC" name="CHUMBO" color="b2cdf7" x="765" y="330" />
-		<entity schema="PUBLIC" name="CONSUMO" color="b2cdf7" x="240" y="405" />
+		<entity schema="PUBLIC" name="ESPOLETA" color="b2cdf7" x="600" y="330" />
 		<entity schema="PUBLIC" name="MUNICAO" color="b2cdf7" x="45" y="255" />
-		<entity schema="PUBLIC" name="RECARGA" color="b2cdf7" x="285" y="165" />
 		<group name="Insumos" color="c4e0f9" >
 			<entity schema="PUBLIC" name="POLVORA" />
 			<entity schema="PUBLIC" name="PROJETIL" />

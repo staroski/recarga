@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaProjeteis extends JPanel {
 
@@ -45,12 +44,12 @@ final class ListaProjeteis extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return getProjetils().size();
+			return getProjeteis().size();
 		}
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			Projetil projetil = getProjetils().get(row);
+			Projetil projetil = getProjeteis().get(row);
 			switch (col) {
 				case 0:
 					return projetil.getDescricao();
@@ -60,8 +59,6 @@ final class ListaProjeteis extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Projetil> projetils;
 
 	private static final long serialVersionUID = 1;
 
@@ -125,21 +122,20 @@ final class ListaProjeteis extends JPanel {
 	}
 
 	private void atualizar() {
-		projetils = Database.get().load(Projetil.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarProjetil() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < projetils.size()) {
-			exibe(projetils.get(linha));
+		if (linha >= 0 && linha < getProjeteis().size()) {
+			exibe(getProjeteis().get(linha));
 		}
 	}
 
 	private void excluirProjetil() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < projetils.size()) {
-			Projetil projetil = projetils.get(linha);
+		if (linha >= 0 && linha < getProjeteis().size()) {
+			Projetil projetil = getProjeteis().get(linha);
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o projetil " + projetil.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
@@ -156,11 +152,8 @@ final class ListaProjeteis extends JPanel {
 		atualizar();
 	}
 
-	private List<Projetil> getProjetils() {
-		if (projetils == null) {
-			projetils = Database.get().load(Projetil.class);
-		}
-		return projetils;
+	private List<Projetil> getProjeteis() {
+		return Database.get().getProjeteis();
 	}
 
 	private void novoProjetil() {

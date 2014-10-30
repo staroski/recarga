@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaMunicoes extends JPanel {
 
@@ -45,12 +44,12 @@ final class ListaMunicoes extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return getMunicaos().size();
+			return getMunicoes().size();
 		}
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			Municao municao = getMunicaos().get(row);
+			Municao municao = getMunicoes().get(row);
 			switch (col) {
 				case 0:
 					Calibre calibre = municao.getCalibre();
@@ -61,8 +60,6 @@ final class ListaMunicoes extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Municao> municaos;
 
 	private static final long serialVersionUID = 1;
 
@@ -126,21 +123,20 @@ final class ListaMunicoes extends JPanel {
 	}
 
 	private void atualizar() {
-		municaos = Database.get().load(Municao.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarMunicao() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < municaos.size()) {
-			exibe(municaos.get(linha));
+		if (linha >= 0 && linha < getMunicoes().size()) {
+			exibe(getMunicoes().get(linha));
 		}
 	}
 
 	private void excluirMunicao() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < municaos.size()) {
-			Municao municao = municaos.get(linha);
+		if (linha >= 0 && linha < getMunicoes().size()) {
+			Municao municao = getMunicoes().get(linha);
 			Calibre calibre = municao.getCalibre();
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir a munição" + (calibre == null ? "" : " " + calibre.getDescricao()) + "?",
 					"Excluir?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -158,11 +154,8 @@ final class ListaMunicoes extends JPanel {
 		atualizar();
 	}
 
-	private List<Municao> getMunicaos() {
-		if (municaos == null) {
-			municaos = Database.get().load(Municao.class);
-		}
-		return municaos;
+	private List<Municao> getMunicoes() {
+		return Database.get().getMunicoes();
 	}
 
 	private void novoMunicao() {

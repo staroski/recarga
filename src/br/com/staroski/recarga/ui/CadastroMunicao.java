@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class CadastroMunicao extends JDialog {
 
@@ -30,8 +29,6 @@ final class CadastroMunicao extends JDialog {
 			return getCalibres().size() + 1;
 		}
 	}
-
-	private List<Calibre> calibres;
 
 	private static final long serialVersionUID = 1;
 
@@ -134,15 +131,16 @@ final class CadastroMunicao extends JDialog {
 		comboBoxCalibre.setModel(new ModeloCalibres());
 		this.municao = municao;
 		Calibre calibre = municao.getCalibre();
-		comboBoxCalibre.setSelectedItem(calibre.getDescricao());
+		if (calibre != null) {
+			comboBoxCalibre.setSelectedItem(calibre.getDescricao());
+		} else {
+			comboBoxCalibre.setSelectedIndex(0);
+		}
 		textFieldQuantidade.setText(String.valueOf(municao.getQuantidade()));
 	}
 
 	private List<Calibre> getCalibres() {
-		if (calibres == null) {
-			calibres = Database.get().load(Calibre.class);
-		}
-		return calibres;
+		return Database.get().getCalibres();
 	}
 
 	private void cancelar() {

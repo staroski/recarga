@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaEstojos extends JPanel {
 
@@ -60,8 +59,6 @@ final class ListaEstojos extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Estojo> estojos;
 
 	private static final long serialVersionUID = 1;
 
@@ -125,21 +122,20 @@ final class ListaEstojos extends JPanel {
 	}
 
 	private void atualizar() {
-		estojos = Database.get().load(Estojo.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarEstojo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < estojos.size()) {
-			exibe(estojos.get(linha));
+		if (linha >= 0 && linha < getEstojos().size()) {
+			exibe(getEstojos().get(linha));
 		}
 	}
 
 	private void excluirEstojo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < estojos.size()) {
-			Estojo estojo = estojos.get(linha);
+		if (linha >= 0 && linha < getEstojos().size()) {
+			Estojo estojo = getEstojos().get(linha);
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o estojo " + estojo.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
@@ -157,10 +153,7 @@ final class ListaEstojos extends JPanel {
 	}
 
 	private List<Estojo> getEstojos() {
-		if (estojos == null) {
-			estojos = Database.get().load(Estojo.class);
-		}
-		return estojos;
+		return Database.get().getEstojos();
 	}
 
 	private void novoEstojo() {

@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaCalibres extends JPanel {
 
@@ -66,8 +65,6 @@ final class ListaCalibres extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Calibre> calibres;
 
 	private static final long serialVersionUID = 1;
 
@@ -131,21 +128,20 @@ final class ListaCalibres extends JPanel {
 	}
 
 	private void atualizar() {
-		calibres = Database.get().load(Calibre.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarCalibre() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < calibres.size()) {
-			exibe(calibres.get(linha));
+		if (linha >= 0 && linha < getCalibres().size()) {
+			exibe(getCalibres().get(linha));
 		}
 	}
 
 	private void excluirCalibre() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < calibres.size()) {
-			Calibre calibre = calibres.get(linha);
+		if (linha >= 0 && linha < getCalibres().size()) {
+			Calibre calibre = getCalibres().get(linha);
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o calibre " + calibre.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
@@ -163,10 +159,7 @@ final class ListaCalibres extends JPanel {
 	}
 
 	private List<Calibre> getCalibres() {
-		if (calibres == null) {
-			calibres = Database.get().load(Calibre.class);
-		}
-		return calibres;
+		return Database.get().getCalibres();
 	}
 
 	private void novoCalibre() {

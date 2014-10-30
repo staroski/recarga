@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import br.com.staroski.recarga.db.*;
-import br.com.staroski.recarga.db.tables.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class ListaEspoletas extends JPanel {
 
@@ -60,8 +59,6 @@ final class ListaEspoletas extends JPanel {
 			return null;
 		}
 	}
-
-	private List<Espoleta> espoletas;
 
 	private static final long serialVersionUID = 1;
 
@@ -125,21 +122,20 @@ final class ListaEspoletas extends JPanel {
 	}
 
 	private void atualizar() {
-		espoletas = Database.get().load(Espoleta.class);
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
 	private void editarEspoleta() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < espoletas.size()) {
-			exibe(espoletas.get(linha));
+		if (linha >= 0 && linha < getEspoletas().size()) {
+			exibe(getEspoletas().get(linha));
 		}
 	}
 
 	private void excluirEspoleta() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < espoletas.size()) {
-			Espoleta espoleta = espoletas.get(linha);
+		if (linha >= 0 && linha < getEspoletas().size()) {
+			Espoleta espoleta = getEspoletas().get(linha);
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o espoleta " + espoleta.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
@@ -157,10 +153,7 @@ final class ListaEspoletas extends JPanel {
 	}
 
 	private List<Espoleta> getEspoletas() {
-		if (espoletas == null) {
-			espoletas = Database.get().load(Espoleta.class);
-		}
-		return espoletas;
+		return Database.get().getEspoletas();
 	}
 
 	private void novoEspoleta() {

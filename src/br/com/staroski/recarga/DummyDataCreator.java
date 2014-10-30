@@ -1,6 +1,6 @@
 package br.com.staroski.recarga;
 
-import br.com.staroski.recarga.db.*;
+import br.com.staroski.recarga.persistence.*;
 
 final class DummyDataCreator {
 

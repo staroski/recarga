@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import br.com.staroski.recarga.db.*;
+import br.com.staroski.recarga.persistence.*;
 import br.com.staroski.recarga.ui.*;
 
 public final class ControleRecarga {
