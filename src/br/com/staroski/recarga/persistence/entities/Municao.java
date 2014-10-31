@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Municao")
-public final class Municao {
+public class Municao {
 
 	private long id_municao;
 	private Calibre calibre;
@@ -17,7 +17,7 @@ public final class Municao {
 	private Espoleta espoleta;
 	private int quantidade;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_municao_calibre", nullable = false)
 	public Calibre getCalibre() {
 		return calibre;
@@ -29,13 +29,13 @@ public final class Municao {
 		return chumbo;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_municao_espoleta", nullable = false)
 	public Espoleta getEspoleta() {
 		return espoleta;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_municao_estojo", nullable = false)
 	public Estojo getEstojo() {
 		return estojo;
@@ -48,13 +48,13 @@ public final class Municao {
 		return id_municao;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_municao_polvora", nullable = false)
 	public Polvora getPolvora() {
 		return polvora;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_municao_projetil", nullable = false)
 	public Projetil getProjetil() {
 		return projetil;

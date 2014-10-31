@@ -33,17 +33,35 @@ public final class Database {
 	private Database() {}
 
 	public void delete(Object object) {
-		manager.getTransaction().begin();
-		manager.remove(object);
-		manager.getTransaction().commit();
-		needReload();
+		boolean commit = false;
+		try {
+			manager.getTransaction().begin();
+			manager.remove(object);
+			commit = true;
+		} finally {
+			if (commit) {
+				manager.getTransaction().commit();
+				needReload();
+			} else {
+				manager.getTransaction().rollback();
+			}
+		}
 	}
 
 	public void save(Object object) {
-		manager.getTransaction().begin();
-		manager.persist(object);
-		manager.getTransaction().commit();
-		needReload();
+		boolean commit = false;
+		try {
+			manager.getTransaction().begin();
+			manager.persist(object);
+			commit = true;
+		} finally {
+			if (commit) {
+				manager.getTransaction().commit();
+				needReload();
+			} else {
+				manager.getTransaction().rollback();
+			}
+		}
 	}
 
 	public List<Calibre> getCalibres() {

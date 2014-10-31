@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Projetil")
-public final class Projetil {
+public class Projetil {
 
 	private long id_projetil;
 	private String descricao;
