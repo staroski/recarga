@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import br.com.staroski.recarga.persistence.*;
+import br.com.staroski.recarga.persistence.entities.*;
 
 final class CadastroEstojo extends JDialog {
 

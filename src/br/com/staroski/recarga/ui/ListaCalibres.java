@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import br.com.staroski.recarga.persistence.*;
+import br.com.staroski.recarga.persistence.entities.*;
 
 final class ListaCalibres extends JPanel {
 
@@ -20,17 +21,13 @@ final class ListaCalibres extends JPanel {
 			switch (col) {
 				case 0:
 					return String.class;
-				case 1:
-					return Integer.class;
-				case 2:
-					return Double.class;
 			}
 			return Object.class;
 		}
 
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 1;
 		}
 
 		@Override
@@ -38,10 +35,6 @@ final class ListaCalibres extends JPanel {
 			switch (col) {
 				case 0:
 					return "Descrição";
-				case 1:
-					return "Chumbos";
-				case 2:
-					return "Carga";
 			}
 			return null;
 		}
@@ -57,10 +50,6 @@ final class ListaCalibres extends JPanel {
 			switch (col) {
 				case 0:
 					return calibre.getDescricao();
-				case 1:
-					return calibre.getChumbos();
-				case 2:
-					return calibre.getPolvora();
 			}
 			return null;
 		}

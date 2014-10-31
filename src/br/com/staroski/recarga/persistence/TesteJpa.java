@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.persistence;
 
+import br.com.staroski.recarga.persistence.entities.*;
+
 public final class TesteJpa {
 
 	public static void main(String[] args) {

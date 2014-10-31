@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import br.com.staroski.recarga.persistence.*;
+import br.com.staroski.recarga.persistence.entities.*;
 
 final class ListaChumbos extends JPanel {
 

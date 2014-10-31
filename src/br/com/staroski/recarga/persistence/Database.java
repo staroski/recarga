@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import br.com.staroski.recarga.persistence.entities.*;
+
 public final class Database {
 
 	private static final class Holder {

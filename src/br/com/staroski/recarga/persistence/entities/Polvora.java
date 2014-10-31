@@ -1,12 +1,12 @@
-package br.com.staroski.recarga.persistence;
+package br.com.staroski.recarga.persistence.entities;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Espoleta")
-public final class Espoleta {
+@Table(name = "Polvora")
+public final class Polvora {
 
-	private long id_espoleta;
+	private long id_polvora;
 	private String descricao;
 	private int quantidade;
 
@@ -17,9 +17,9 @@ public final class Espoleta {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id_espoleta", columnDefinition = "numeric")
+	@Column(name = "id_polvora", columnDefinition = "numeric")
 	public long getId() {
-		return id_espoleta;
+		return id_polvora;
 	}
 
 	@Column(name = "quantidade", columnDefinition = "integer")
@@ -32,7 +32,7 @@ public final class Espoleta {
 	}
 
 	public void setId(long id) {
-		id_espoleta = id;
+		id_polvora = id;
 	}
 
 	public void setQuantidade(int quantidade) {
