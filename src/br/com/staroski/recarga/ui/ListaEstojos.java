@@ -71,36 +71,46 @@ final class ListaEstojos extends JPanel {
 	public ListaEstojos() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		add(panel, BorderLayout.NORTH);
-
-		JButton buttonNovo = new JButton("Novo");
-		buttonNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				novoEstojo();
-			}
-		});
-		panel.add(buttonNovo);
-
-		JButton buttonEditar = new JButton("Editar");
-		buttonEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				editarEstojo();
-			}
-		});
-		panel.add(buttonEditar);
-
-		JButton buttonExcluir = new JButton("Excluir");
-		buttonExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				excluirEstojo();
-			}
-		});
-		panel.add(buttonExcluir);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setOpaque(false);
+		add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+				JPanel panel = new JPanel();
+				panel_1.add(panel, BorderLayout.EAST);
+				panel.setOpaque(false);
+				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+				flowLayout.setAlignment(FlowLayout.RIGHT);
+				
+						JButton buttonNovo = new JButton("Novo");
+						buttonNovo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								novoEstojo();
+							}
+						});
+						panel.add(buttonNovo);
+						
+								JButton buttonEditar = new JButton("Editar");
+								buttonEditar.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										editarEstojo();
+									}
+								});
+								panel.add(buttonEditar);
+								
+										JButton buttonExcluir = new JButton("Excluir");
+										buttonExcluir.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												excluirEstojo();
+											}
+										});
+										panel.add(buttonExcluir);
+										
+										JLabel lblEstojos = new JLabel("Estojos");
+										lblEstojos.setFont(new Font("Arial", lblEstojos.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblEstojos.getFont().getSize() + 12));
+										lblEstojos.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_1.add(lblEstojos, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

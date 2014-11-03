@@ -26,6 +26,8 @@ public final class Database {
 	private List<Polvora> polvoras;
 	private List<Projetil> projeteis;
 	private List<Municao> municoes;
+	private List<Consumo> consumos;
+	private List<Recarga> recargas;
 
 	private EntityManagerFactory factory;
 	private EntityManager manager;
@@ -37,22 +39,6 @@ public final class Database {
 		try {
 			manager.getTransaction().begin();
 			manager.remove(object);
-			commit = true;
-		} finally {
-			if (commit) {
-				manager.getTransaction().commit();
-				needReload();
-			} else {
-				manager.getTransaction().rollback();
-			}
-		}
-	}
-
-	public void save(Object object) {
-		boolean commit = false;
-		try {
-			manager.getTransaction().begin();
-			manager.persist(object);
 			commit = true;
 		} finally {
 			if (commit) {
@@ -82,6 +68,15 @@ public final class Database {
 		return chumbos;
 	}
 
+	public List<Consumo> getConsumos() {
+		if (consumos == null) {
+			manager.getTransaction().begin();
+			consumos = manager.createQuery("from Consumo", Consumo.class).getResultList();
+			manager.getTransaction().commit();
+		}
+		return consumos;
+	}
+
 	public List<Espoleta> getEspoletas() {
 		if (espoletas == null) {
 			manager.getTransaction().begin();
@@ -98,6 +93,15 @@ public final class Database {
 			manager.getTransaction().commit();
 		}
 		return estojos;
+	}
+
+	public List<Municao> getMunicoes() {
+		if (municoes == null) {
+			manager.getTransaction().begin();
+			municoes = manager.createQuery("from Municao", Municao.class).getResultList();
+			manager.getTransaction().commit();
+		}
+		return municoes;
 	}
 
 	public List<Polvora> getPolvoras() {
@@ -118,13 +122,13 @@ public final class Database {
 		return projeteis;
 	}
 
-	public List<Municao> getMunicoes() {
-		if (municoes == null) {
+	public List<Recarga> getRecargas() {
+		if (recargas == null) {
 			manager.getTransaction().begin();
-			municoes = manager.createQuery("from Municao", Municao.class).getResultList();
+			recargas = manager.createQuery("from Recarga", Recarga.class).getResultList();
 			manager.getTransaction().commit();
 		}
-		return municoes;
+		return recargas;
 	}
 
 	public void login(String url, String user, String pass) {
@@ -153,6 +157,22 @@ public final class Database {
 		}
 	}
 
+	public void save(Object object) {
+		boolean commit = false;
+		try {
+			manager.getTransaction().begin();
+			manager.persist(object);
+			commit = true;
+		} finally {
+			if (commit) {
+				manager.getTransaction().commit();
+				needReload();
+			} else {
+				manager.getTransaction().rollback();
+			}
+		}
+	}
+
 	private void needReload() {
 		calibres = null;
 		chumbos = null;
@@ -161,5 +181,7 @@ public final class Database {
 		polvoras = null;
 		projeteis = null;
 		municoes = null;
+		consumos = null;
+		recargas = null;
 	}
 }

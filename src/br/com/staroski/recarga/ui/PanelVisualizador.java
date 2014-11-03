@@ -2,14 +2,15 @@ package br.com.staroski.recarga.ui;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 
-final class Visualizador extends JPanel {
+final class PanelVisualizador extends JPanel {
 
 	private static final long serialVersionUID = 1;
 
-	public Visualizador() {
+	public PanelVisualizador() {
 		super(new CardLayout());
 		setOpaque(false);
-		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 	}
 }

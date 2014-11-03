@@ -65,36 +65,46 @@ final class ListaCalibres extends JPanel {
 	public ListaCalibres() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		add(panel, BorderLayout.NORTH);
-
-		JButton buttonNovo = new JButton("Novo");
-		buttonNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				novoCalibre();
-			}
-		});
-		panel.add(buttonNovo);
-
-		JButton buttonEditar = new JButton("Editar");
-		buttonEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				editarCalibre();
-			}
-		});
-		panel.add(buttonEditar);
-
-		JButton buttonExcluir = new JButton("Excluir");
-		buttonExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				excluirCalibre();
-			}
-		});
-		panel.add(buttonExcluir);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setOpaque(false);
+		add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+				JPanel panel = new JPanel();
+				panel_1.add(panel, BorderLayout.EAST);
+				panel.setOpaque(false);
+				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+				flowLayout.setAlignment(FlowLayout.RIGHT);
+				
+						JButton buttonNovo = new JButton("Novo");
+						buttonNovo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								novoCalibre();
+							}
+						});
+						panel.add(buttonNovo);
+						
+								JButton buttonEditar = new JButton("Editar");
+								buttonEditar.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										editarCalibre();
+									}
+								});
+								panel.add(buttonEditar);
+								
+										JButton buttonExcluir = new JButton("Excluir");
+										buttonExcluir.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												excluirCalibre();
+											}
+										});
+										panel.add(buttonExcluir);
+										
+										JLabel lblNewLabel = new JLabel("Calibres");
+										lblNewLabel.setFont(new Font("Arial", lblNewLabel.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblNewLabel.getFont().getSize() + 12));
+										lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_1.add(lblNewLabel, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

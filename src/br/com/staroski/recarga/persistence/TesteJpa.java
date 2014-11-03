@@ -45,6 +45,14 @@ public final class TesteJpa {
 				System.out.println(municao + " - " + municao.getCalibre());
 			}
 
+			for (Consumo consumo : base.getConsumos()) {
+				System.out.println(consumo + " - " + consumo.getMunicao());
+			}
+
+			for (Recarga recarga : base.getRecargas()) {
+				System.out.println(recarga + " - " + recarga.getMunicao());
+			}
+
 		} finally {
 			if (base != null) {
 				base.logout();

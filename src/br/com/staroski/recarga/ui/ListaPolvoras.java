@@ -71,36 +71,46 @@ final class ListaPolvoras extends JPanel {
 	public ListaPolvoras() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		add(panel, BorderLayout.NORTH);
-
-		JButton buttonNovo = new JButton("Novo");
-		buttonNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				novoPolvora();
-			}
-		});
-		panel.add(buttonNovo);
-
-		JButton buttonEditar = new JButton("Editar");
-		buttonEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				editarPolvora();
-			}
-		});
-		panel.add(buttonEditar);
-
-		JButton buttonExcluir = new JButton("Excluir");
-		buttonExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				excluirPolvora();
-			}
-		});
-		panel.add(buttonExcluir);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setOpaque(false);
+		add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+				JPanel panel = new JPanel();
+				panel_1.add(panel, BorderLayout.EAST);
+				panel.setOpaque(false);
+				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+				flowLayout.setAlignment(FlowLayout.RIGHT);
+				
+						JButton buttonNovo = new JButton("Novo");
+						buttonNovo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								novoPolvora();
+							}
+						});
+						panel.add(buttonNovo);
+						
+								JButton buttonEditar = new JButton("Editar");
+								buttonEditar.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										editarPolvora();
+									}
+								});
+								panel.add(buttonEditar);
+								
+										JButton buttonExcluir = new JButton("Excluir");
+										buttonExcluir.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												excluirPolvora();
+											}
+										});
+										panel.add(buttonExcluir);
+										
+										JLabel lblPlvoras = new JLabel("P\u00F3lvoras");
+										lblPlvoras.setFont(new Font("Arial", lblPlvoras.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblPlvoras.getFont().getSize() + 12));
+										lblPlvoras.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_1.add(lblPlvoras, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

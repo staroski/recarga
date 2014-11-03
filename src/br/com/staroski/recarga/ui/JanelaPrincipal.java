@@ -1,6 +1,7 @@
 package br.com.staroski.recarga.ui;
 
 import java.awt.*;
+import java.awt.image.*;
 
 import javax.swing.*;
 
@@ -22,26 +23,9 @@ public final class JanelaPrincipal extends JFrame {
 		Container container = getContentPane();
 		container.setLayout(new BorderLayout());
 
-		// criar intância do menu
-		Menu menu = new Menu();
-
-		// criar intância do Visualizador
-		Visualizador visualizador = new Visualizador();
-
-		// o menu vai ficar fixo à esquerda da janela
-		container.add(BorderLayout.WEST, menu);
-
-		// e o visualizador vai apresentar as telas no centro da janela
-		container.add(BorderLayout.CENTER, visualizador);
-
-		// agora precisamos configurar a classe controladora
-		// para isso, obtemos uma instância dela
+		PanelVisualizador visualizador = new PanelVisualizador();
 		Controlador controlador = Controlador.get();
-
-		// definimos o container visualizador
 		controlador.setVisualizador(visualizador);
-
-		// e registramos cada tela com sua respectiva contante 
 		controlador.registra(Tela.INICIAL, new TelaInicial());
 		controlador.registra(Tela.LISTA_CALIBRES, new ListaCalibres());
 		controlador.registra(Tela.LISTA_ESTOJOS, new ListaEstojos());
@@ -50,12 +34,55 @@ public final class JanelaPrincipal extends JFrame {
 		controlador.registra(Tela.LISTA_POLVORAS, new ListaPolvoras());
 		controlador.registra(Tela.LISTA_PROJETEIS, new ListaProjeteis());
 		controlador.registra(Tela.LISTA_MUNICOES, new ListaMunicoes());
+		controlador.registra(Tela.LISTA_CONSUMOS, new ListaConsumos());
+		controlador.registra(Tela.LISTA_RECARGAS, new ListaRecargas());
+
+		PanelCadastros panelCadastros = new PanelCadastros();
+		PanelInsumos panelInsumos = new PanelInsumos();
+
+		container.add(BorderLayout.NORTH, panelCadastros);
+		container.add(BorderLayout.CENTER, visualizador);
+		container.add(BorderLayout.SOUTH, panelInsumos);
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		Rectangle r = getBounds();
-		g.drawImage(Recursos.IMAGEM_FUNDO, 0, 0, r.width, r.height, this);
+		BufferedImage image = Recursos.IMAGEM_FUNDO;
+		int x = 0;
+		int y = 0;
+		int w = getWidth();
+		int h = getHeight();
+
+		g.drawImage(image, x, y, w, h, null);
+
 		super.paintComponents(g);
 	}
+
+	//	private void pintaFundo(Graphics g) {
+	//		BufferedImage image = Recursos.IMAGEM_FUNDO;
+	//		int w = getWidth();
+	//		int h = getHeight();
+	//		int iw = image.getWidth();
+	//		int ih = image.getHeight();
+	//		int colunas = w / iw;
+	//		int linhas = h / ih;
+	//		if (colunas * iw < w) {
+	//			colunas++;
+	//		}
+	//		if (linhas * ih < h) {
+	//			linhas++;
+	//		}
+	//
+	//		for (int i = 0; i < linhas; i++) {
+	//			int y = i * ih;
+	//			if (y > h) {
+	//				break;
+	//			}
+	//			for (int j = 0; j < colunas; j++) {
+	//				int x = j * iw;
+	//				System.out.println(x + ", " + y + ", " + iw + ", " + ih);
+	//				g.drawImage(image, x, y, iw, ih, null);
+	//			}
+	//		}
+	//	}
 }

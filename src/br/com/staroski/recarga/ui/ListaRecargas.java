@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -10,7 +12,7 @@ import javax.swing.table.*;
 import br.com.staroski.recarga.persistence.*;
 import br.com.staroski.recarga.persistence.entities.*;
 
-final class ListaEspoletas extends JPanel {
+final class ListaRecargas extends JPanel {
 
 	private class Modelo extends AbstractTableModel {
 
@@ -20,8 +22,9 @@ final class ListaEspoletas extends JPanel {
 		public Class<?> getColumnClass(int col) {
 			switch (col) {
 				case 0:
-					return String.class;
 				case 1:
+					return String.class;
+				case 2:
 					return Integer.class;
 			}
 			return Object.class;
@@ -29,15 +32,17 @@ final class ListaEspoletas extends JPanel {
 
 		@Override
 		public int getColumnCount() {
-			return 2;
+			return 3;
 		}
 
 		@Override
 		public String getColumnName(int col) {
 			switch (col) {
 				case 0:
-					return "Descrição";
+					return "Data";
 				case 1:
+					return "Munição";
+				case 2:
 					return "Quantidade";
 			}
 			return null;
@@ -45,17 +50,23 @@ final class ListaEspoletas extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return getEspoletas().size();
+			return getConsumos().size();
 		}
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			Espoleta espoleta = getEspoletas().get(row);
+			Consumo consumo = getConsumos().get(row);
 			switch (col) {
 				case 0:
-					return espoleta.getDescricao();
+					return formatDate(consumo.getData());
 				case 1:
-					return espoleta.getQuantidade();
+					Municao municao = consumo.getMunicao();
+					Calibre calibre = municao.getCalibre();
+					Projetil projetil = municao.getProjetil();
+					Estojo estojo = municao.getEstojo();
+					return calibre.getDescricao() + " - " + projetil.getDescricao() + " - " + estojo.getDescricao();
+				case 2:
+					return consumo.getQuantidade();
 			}
 			return null;
 		}
@@ -68,7 +79,7 @@ final class ListaEspoletas extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ListaEspoletas() {
+	public ListaRecargas() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
 		
@@ -86,7 +97,7 @@ final class ListaEspoletas extends JPanel {
 						JButton buttonNovo = new JButton("Novo");
 						buttonNovo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								novoEspoleta();
+								novoConsumo();
 							}
 						});
 						panel.add(buttonNovo);
@@ -94,7 +105,7 @@ final class ListaEspoletas extends JPanel {
 								JButton buttonEditar = new JButton("Editar");
 								buttonEditar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
-										editarEspoleta();
+										editarConsumo();
 									}
 								});
 								panel.add(buttonEditar);
@@ -102,15 +113,15 @@ final class ListaEspoletas extends JPanel {
 										JButton buttonExcluir = new JButton("Excluir");
 										buttonExcluir.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
-												excluirEspoleta();
+												excluirConsumo();
 											}
 										});
 										panel.add(buttonExcluir);
 										
-										JLabel lblEspoletas = new JLabel("Espoletas");
-										lblEspoletas.setFont(new Font("Arial", lblEspoletas.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblEspoletas.getFont().getSize() + 12));
-										lblEspoletas.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_1.add(lblEspoletas, BorderLayout.CENTER);
+										JLabel lblChumbos = new JLabel("Recargas");
+										lblChumbos.setFont(new Font("Arial", lblChumbos.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblChumbos.getFont().getSize() + 12));
+										lblChumbos.setHorizontalAlignment(SwingConstants.CENTER);
+										panel_1.add(lblChumbos, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
@@ -120,7 +131,7 @@ final class ListaEspoletas extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() > 1) {
-					editarEspoleta();
+					editarConsumo();
 				}
 			}
 		});
@@ -136,38 +147,38 @@ final class ListaEspoletas extends JPanel {
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
-	private void editarEspoleta() {
+	private void editarConsumo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < getEspoletas().size()) {
-			exibe(getEspoletas().get(linha));
+		if (linha >= 0 && linha < getConsumos().size()) {
+			exibe(getConsumos().get(linha));
 		}
 	}
 
-	private void excluirEspoleta() {
+	private void excluirConsumo() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < getEspoletas().size()) {
-			Espoleta espoleta = getEspoletas().get(linha);
-			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o espoleta " + espoleta.getDescricao() + "?", "Excluir?",
+		if (linha >= 0 && linha < getConsumos().size()) {
+			Consumo consumo = getConsumos().get(linha);
+			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o consumo do dia " + formatDate(consumo.getData()) + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
-				Database.get().delete(espoleta);
+				Database.get().delete(consumo);
 				atualizar();
 			}
 		}
 	}
 
-	private void exibe(Espoleta espoleta) {
-		CadastroEspoleta dialogo = new CadastroEspoleta(espoleta);
+	private void exibe(Consumo consumo) {
+		CadastroConsumo dialogo = new CadastroConsumo(consumo);
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();
 	}
 
-	private List<Espoleta> getEspoletas() {
-		return Database.get().getEspoletas();
+	private List<Consumo> getConsumos() {
+		return Database.get().getConsumos();
 	}
 
-	private void novoEspoleta() {
-		exibe(new Espoleta());
+	private void novoConsumo() {
+		exibe(new Consumo());
 	}
 }

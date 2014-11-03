@@ -56,12 +56,17 @@ public final class ControleRecarga {
 		}
 		try {
 			// apresentar a janela do nosso sistema
-			JanelaPrincipal janela = new JanelaPrincipal();
+			final JanelaPrincipal janela = new JanelaPrincipal();
 			janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			janela.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
-					logout();
+					int opcao = JOptionPane.showConfirmDialog(janela, "Deseja realmente sair?", "Sair?", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE);
+					if (opcao == JOptionPane.YES_OPTION) {
+						janela.dispose();
+						logout();
+					}
 				}
 			});
 			janela.setLocationRelativeTo(null);
