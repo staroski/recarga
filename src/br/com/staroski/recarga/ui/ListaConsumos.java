@@ -32,7 +32,7 @@ final class ListaConsumos extends JPanel {
 
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 6;
 		}
 
 		@Override
@@ -41,8 +41,14 @@ final class ListaConsumos extends JPanel {
 				case 0:
 					return "Data";
 				case 1:
-					return "Munição";
+					return "Calibre";
 				case 2:
+					return "Projétil";
+				case 3:
+					return "Chumbos";
+				case 4:
+					return "Pólvora";
+				case 5:
 					return "Quantidade";
 			}
 			return null;
@@ -56,16 +62,23 @@ final class ListaConsumos extends JPanel {
 		@Override
 		public Object getValueAt(int row, int col) {
 			Consumo consumo = getConsumos().get(row);
+			Municao municao = consumo.getMunicao();
+			Calibre calibre = municao.getCalibre();
+			Projetil projetil = municao.getProjetil();
+			int chumbos = municao.getQuantidadeChumbo();
+			double polvora = municao.getQuantidadePolvora();
 			switch (col) {
 				case 0:
 					return formatDate(consumo.getData());
 				case 1:
-					Municao municao = consumo.getMunicao();
-					Calibre calibre = municao.getCalibre();
-					Projetil projetil = municao.getProjetil();
-					Estojo estojo = municao.getEstojo();
-					return calibre.getDescricao() + " - " + projetil.getDescricao() + " - " + estojo.getDescricao();
+					return calibre == null ? "" : calibre.getDescricao();
 				case 2:
+					return projetil == null ? "" : projetil.getDescricao();
+				case 3:
+					return chumbos;
+				case 4:
+					return polvora;
+				case 5:
 					return consumo.getQuantidade();
 			}
 			return null;
@@ -82,46 +95,46 @@ final class ListaConsumos extends JPanel {
 	public ListaConsumos() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setOpaque(false);
 		add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
-				JPanel panel = new JPanel();
-				panel_1.add(panel, BorderLayout.EAST);
-				panel.setOpaque(false);
-				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-				flowLayout.setAlignment(FlowLayout.RIGHT);
-				
-						JButton buttonNovo = new JButton("Novo");
-						buttonNovo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								novoConsumo();
-							}
-						});
-						panel.add(buttonNovo);
-						
-								JButton buttonEditar = new JButton("Editar");
-								buttonEditar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										editarConsumo();
-									}
-								});
-								panel.add(buttonEditar);
-								
-										JButton buttonExcluir = new JButton("Excluir");
-										buttonExcluir.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												excluirConsumo();
-											}
-										});
-										panel.add(buttonExcluir);
-										
-										JLabel lblConsumo = new JLabel("Consumos");
-										lblConsumo.setFont(new Font("Arial", lblConsumo.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblConsumo.getFont().getSize() + 12));
-										lblConsumo.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_1.add(lblConsumo, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		panel_1.add(panel, BorderLayout.EAST);
+		panel.setOpaque(false);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+
+		JButton buttonNovo = new JButton("Novo");
+		buttonNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				novoConsumo();
+			}
+		});
+		panel.add(buttonNovo);
+
+		JButton buttonEditar = new JButton("Editar");
+		buttonEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarConsumo();
+			}
+		});
+		panel.add(buttonEditar);
+
+		JButton buttonExcluir = new JButton("Excluir");
+		buttonExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirConsumo();
+			}
+		});
+		panel.add(buttonExcluir);
+
+		JLabel lblConsumo = new JLabel("Consumos");
+		lblConsumo.setFont(new Font("Arial", lblConsumo.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblConsumo.getFont().getSize() + 12));
+		lblConsumo.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblConsumo, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

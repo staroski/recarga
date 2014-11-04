@@ -29,16 +29,22 @@ final class ListaMunicoes extends JPanel {
 
 		@Override
 		public int getColumnCount() {
-			return 2;
+			return 5;
 		}
 
 		@Override
 		public String getColumnName(int col) {
 			switch (col) {
 				case 0:
-					return "Descrição";
+					return "Calibre";
 				case 1:
-					return "Quantidade";
+					return "Projétil";
+				case 2:
+					return "Chumbos";
+				case 3:
+					return "Pólvora";
+				case 4:
+					return "Disponível";
 			}
 			return null;
 		}
@@ -51,14 +57,22 @@ final class ListaMunicoes extends JPanel {
 		@Override
 		public Object getValueAt(int row, int col) {
 			Municao municao = getMunicoes().get(row);
+			Calibre calibre = municao.getCalibre();
+			Projetil projetil = municao.getProjetil();
+			int chumbos = municao.getQuantidadeChumbo();
+			double polvora = municao.getQuantidadePolvora();
+			int disponivel = municao.getQuantidade();
 			switch (col) {
 				case 0:
-					Calibre calibre = municao.getCalibre();
-					Projetil projetil = municao.getProjetil();
-					Estojo estojo = municao.getEstojo();
-					return calibre.getDescricao() + " - " + projetil.getDescricao() + " - " + estojo.getDescricao();
+					return calibre == null ? "" : calibre.getDescricao();
 				case 1:
-					return municao.getQuantidade();
+					return projetil == null ? "" : projetil.getDescricao();
+				case 2:
+					return chumbos;
+				case 3:
+					return polvora;
+				case 4:
+					return disponivel;
 			}
 			return null;
 		}
@@ -74,46 +88,46 @@ final class ListaMunicoes extends JPanel {
 	public ListaMunicoes() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setOpaque(false);
 		add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
-				JPanel panel = new JPanel();
-				panel_1.add(panel, BorderLayout.EAST);
-				panel.setOpaque(false);
-				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-				flowLayout.setAlignment(FlowLayout.RIGHT);
-				
-						JButton buttonNovo = new JButton("Novo");
-						buttonNovo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								novoMunicao();
-							}
-						});
-						panel.add(buttonNovo);
-						
-								JButton buttonEditar = new JButton("Editar");
-								buttonEditar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										editarMunicao();
-									}
-								});
-								panel.add(buttonEditar);
-								
-										JButton buttonExcluir = new JButton("Excluir");
-										buttonExcluir.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												excluirMunicao();
-											}
-										});
-										panel.add(buttonExcluir);
-										
-										JLabel lblMunies = new JLabel("Muni\u00E7\u00F5es");
-										lblMunies.setFont(new Font("Arial", lblMunies.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblMunies.getFont().getSize() + 12));
-										lblMunies.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_1.add(lblMunies, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		panel_1.add(panel, BorderLayout.EAST);
+		panel.setOpaque(false);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+
+		JButton buttonNovo = new JButton("Novo");
+		buttonNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				novoMunicao();
+			}
+		});
+		panel.add(buttonNovo);
+
+		JButton buttonEditar = new JButton("Editar");
+		buttonEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarMunicao();
+			}
+		});
+		panel.add(buttonEditar);
+
+		JButton buttonExcluir = new JButton("Excluir");
+		buttonExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirMunicao();
+			}
+		});
+		panel.add(buttonExcluir);
+
+		JLabel lblMunies = new JLabel("Muni\u00E7\u00F5es");
+		lblMunies.setFont(new Font("Arial", lblMunies.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblMunies.getFont().getSize() + 12));
+		lblMunies.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblMunies, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);

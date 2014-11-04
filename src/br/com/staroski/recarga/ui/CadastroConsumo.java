@@ -153,6 +153,7 @@ final class CadastroConsumo extends JDialog {
 	public CadastroConsumo(Consumo consumo) {
 		this();
 		this.consumo = consumo;
+		comboBoxMunicao.setModel(new ModeloMunicoes());
 		//TODO		textFieldDescricao.setText(consumo.getDescricao());
 	}
 
