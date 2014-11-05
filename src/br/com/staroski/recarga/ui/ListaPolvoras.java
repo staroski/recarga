@@ -157,7 +157,7 @@ final class ListaPolvoras extends JPanel {
 	}
 
 	private void exibe(Polvora polvora) {
-		CadastroPolvora dialogo = new CadastroPolvora(polvora);
+		CadastroPolvora dialogo = Controlador.get().registra(new CadastroPolvora(polvora));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

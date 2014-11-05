@@ -10,7 +10,7 @@ public class Consumo {
 
 	private long id;
 	private int quantidade;
-	private Date data;
+	private Date data = new Date();
 	private Municao municao;
 
 	@Column(name = "data", columnDefinition = "date")

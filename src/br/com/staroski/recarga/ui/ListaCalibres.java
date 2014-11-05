@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -65,46 +67,46 @@ final class ListaCalibres extends JPanel {
 	public ListaCalibres() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setOpaque(false);
 		add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
-				JPanel panel = new JPanel();
-				panel_1.add(panel, BorderLayout.EAST);
-				panel.setOpaque(false);
-				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-				flowLayout.setAlignment(FlowLayout.RIGHT);
-				
-						JButton buttonNovo = new JButton("Novo");
-						buttonNovo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								novoCalibre();
-							}
-						});
-						panel.add(buttonNovo);
-						
-								JButton buttonEditar = new JButton("Editar");
-								buttonEditar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										editarCalibre();
-									}
-								});
-								panel.add(buttonEditar);
-								
-										JButton buttonExcluir = new JButton("Excluir");
-										buttonExcluir.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												excluirCalibre();
-											}
-										});
-										panel.add(buttonExcluir);
-										
-										JLabel lblNewLabel = new JLabel("Calibres");
-										lblNewLabel.setFont(new Font("Arial", lblNewLabel.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblNewLabel.getFont().getSize() + 12));
-										lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_1.add(lblNewLabel, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		panel_1.add(panel, BorderLayout.EAST);
+		panel.setOpaque(false);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+
+		JButton buttonNovo = new JButton("Novo");
+		buttonNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				novoCalibre();
+			}
+		});
+		panel.add(buttonNovo);
+
+		JButton buttonEditar = new JButton("Editar");
+		buttonEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarCalibre();
+			}
+		});
+		panel.add(buttonEditar);
+
+		JButton buttonExcluir = new JButton("Excluir");
+		buttonExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirCalibre();
+			}
+		});
+		panel.add(buttonExcluir);
+
+		JLabel lblNewLabel = new JLabel("Calibres");
+		lblNewLabel.setFont(new Font("Arial", lblNewLabel.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblNewLabel.getFont().getSize() + 12));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblNewLabel, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
@@ -144,14 +146,18 @@ final class ListaCalibres extends JPanel {
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o calibre " + calibre.getDescricao() + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
-				Database.get().delete(calibre);
-				atualizar();
+				try {
+					Database.get().delete(calibre);
+					atualizar();
+				} catch (Exception e) {
+					showError(this, e);
+				}
 			}
 		}
 	}
 
 	private void exibe(Calibre calibre) {
-		CadastroCalibre dialogo = new CadastroCalibre(calibre);
+		CadastroCalibre dialogo = Controlador.get().registra(new CadastroCalibre(calibre));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

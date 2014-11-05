@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -154,7 +156,11 @@ final class CadastroConsumo extends JDialog {
 		this();
 		this.consumo = consumo;
 		comboBoxMunicao.setModel(new ModeloMunicoes());
-		//TODO		textFieldDescricao.setText(consumo.getDescricao());
+
+		Municao municao = consumo.getMunicao();
+		textFieldData.setText(formatDate(consumo.getData()));
+		comboBoxMunicao.setSelectedIndex(getMunicoes().indexOf(municao) + 1);
+		textFieldQuantidade.setText(formatInt(consumo.getQuantidade()));
 	}
 
 	private void cancelar() {
@@ -167,9 +173,17 @@ final class CadastroConsumo extends JDialog {
 	private void salvar() {
 		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (opcao == JOptionPane.YES_OPTION) {
-			//TODO			consumo.setDescricao(textFieldDescricao.getText().trim());
-			Database.get().save(consumo);
-			dispose();
+			try {
+				int linha = comboBoxMunicao.getSelectedIndex() - 1;
+				Municao municao = linha < 0 ? null : getMunicoes().get(linha);
+				consumo.setData(parseDate(textFieldData.getText()));
+				consumo.setMunicao(municao);
+				consumo.setQuantidade(parseInt(textFieldQuantidade.getText()));
+				Database.get().save(consumo);
+				dispose();
+			} catch (Exception e) {
+				showError(this, e);
+			}
 		}
 	}
 

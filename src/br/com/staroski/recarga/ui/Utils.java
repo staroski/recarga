@@ -1,7 +1,10 @@
 package br.com.staroski.recarga.ui;
 
+import java.awt.*;
 import java.text.*;
 import java.util.*;
+
+import javax.swing.*;
 
 final class Utils {
 
@@ -48,6 +51,37 @@ final class Utils {
 		return DATE_HOUR_FORMAT.format(date);
 	}
 
+	public static String formatInt(int value) {
+		return String.valueOf(value);
+	}
+
+	public static int parseInt(String text) {
+		if (text == null) {
+			return 0;
+		}
+		text = text.trim();
+		if (text.isEmpty()) {
+			return 0;
+		}
+		return Integer.parseInt(text);
+	}
+
+	public static String formatDouble(double value) {
+		return String.valueOf(value);
+	}
+
+	public static double parseDouble(String text) {
+		if (text == null) {
+			return 0;
+		}
+		text = text.trim();
+		if (text.isEmpty()) {
+			return 0;
+		}
+		text = text.replace(',', '.');
+		return Double.parseDouble(text);
+	}
+
 	public static RuntimeException wrap(Throwable t) {
 		if (t instanceof RuntimeException) {
 			return (RuntimeException) t;
@@ -57,4 +91,8 @@ final class Utils {
 
 	private Utils() {}
 
+	public static void showError(Component parent, Throwable erro) {
+		erro.printStackTrace();
+		JOptionPane.showMessageDialog(parent, erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+	}
 }

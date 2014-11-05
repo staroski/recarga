@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -38,7 +40,7 @@ final class CadastroRecarga extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
-	private Consumo consumo;
+	private Recarga recarga;
 	private JTextField textFieldData;
 	private JComboBox<String> comboBoxMunicao;
 	private JTextField textFieldQuantidade;
@@ -55,7 +57,7 @@ final class CadastroRecarga extends JDialog {
 			}
 		});
 		setResizable(false);
-		setTitle("Consumo");
+		setTitle("Recarga");
 		setBounds(100, 100, 620, 140);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -150,10 +152,15 @@ final class CadastroRecarga extends JDialog {
 		}
 	}
 
-	public CadastroRecarga(Consumo consumo) {
+	public CadastroRecarga(Recarga recarga) {
 		this();
-		this.consumo = consumo;
-		//TODO		textFieldDescricao.setText(consumo.getDescricao());
+		this.recarga = recarga;
+		comboBoxMunicao.setModel(new ModeloMunicoes());
+
+		Municao municao = recarga.getMunicao();
+		textFieldData.setText(formatDate(recarga.getData()));
+		comboBoxMunicao.setSelectedIndex(getMunicoes().indexOf(municao) + 1);
+		textFieldQuantidade.setText(formatInt(recarga.getQuantidade()));
 	}
 
 	private void cancelar() {
@@ -166,9 +173,17 @@ final class CadastroRecarga extends JDialog {
 	private void salvar() {
 		int opcao = JOptionPane.showConfirmDialog(this, "Confirma as alterações?", "Salvar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (opcao == JOptionPane.YES_OPTION) {
-			//TODO			consumo.setDescricao(textFieldDescricao.getText().trim());
-			Database.get().save(consumo);
-			dispose();
+			try {
+				int linha = comboBoxMunicao.getSelectedIndex() - 1;
+				Municao municao = linha < 0 ? null : getMunicoes().get(linha);
+				recarga.setData(parseDate(textFieldData.getText()));
+				recarga.setMunicao(municao);
+				recarga.setQuantidade(parseInt(textFieldQuantidade.getText()));
+				Database.get().save(recarga);
+				dispose();
+			} catch (Exception e) {
+				showError(this, e);
+			}
 		}
 	}
 

@@ -1,5 +1,10 @@
 package br.com.staroski.recarga.ui;
+
 import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+import javax.swing.text.*;
 
 final class Controlador {
 
@@ -15,10 +20,45 @@ final class Controlador {
 		return Holder.INSTANCIA;
 	}
 
+	private static final FocusListener FOCUS_SELECTOR = new FocusAdapter() {
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			Object source = e.getSource();
+			if (source instanceof TextComponent) {
+				((TextComponent) source).selectAll();
+			} else if (source instanceof JTextComponent) {
+				((JTextComponent) source).selectAll();
+			}
+		}
+	};
+
 	private Container visualizador;
 
 	// construtor privado, classe singleton
 	private Controlador() {}
+
+	/**
+	 * Método utilizado para apresentar uma tela a partir da sua contante
+	 */
+	public void exibe(Tela tela) {
+		Container visualizador = getVisualizador();
+		CardLayout cards = (CardLayout) visualizador.getLayout();
+		cards.show(visualizador, tela.name());
+	}
+
+	/**
+	 * Método utilizado para registrar uma contante de tela, com sua instância
+	 */
+	public void registra(Tela tela, Container container) {
+		visualizador.add(container, tela.name());
+		applyFocusSelector(container);
+	}
+
+	public <T extends JDialog> T registra(T dialog) {
+		applyFocusSelector(dialog);
+		return dialog;
+	}
 
 	/**
 	 * Método utilizado para definir o container visualizador
@@ -31,20 +71,17 @@ final class Controlador {
 		visualizador = container;
 	}
 
-	/**
-	 * Método utilizado para registrar uma contante de tela, com sua instância
-	 */
-	public void registra(Tela tela, Container container) {
-		visualizador.add(container, tela.name());
-	}
-
-	/**
-	 * Método utilizado para apresentar uma tela a partir da sua contante
-	 */
-	public void exibe(Tela tela) {
-		Container visualizador = getVisualizador();
-		CardLayout cards = (CardLayout) visualizador.getLayout();
-		cards.show(visualizador, tela.name());
+	private void applyFocusSelector(Container container) {
+		for (Component component : container.getComponents()) {
+			System.out.println(component.getClass().getSimpleName());
+			if (component instanceof TextComponent) {
+				((TextComponent) component).addFocusListener(FOCUS_SELECTOR);
+			} else if (component instanceof JTextComponent) {
+				((JTextComponent) component).addFocusListener(FOCUS_SELECTOR);
+			} else if (component instanceof Container) {
+				applyFocusSelector((Container) component);
+			}
+		}
 	}
 
 	private Container getVisualizador() {

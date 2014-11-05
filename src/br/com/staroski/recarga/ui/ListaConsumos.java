@@ -32,7 +32,7 @@ final class ListaConsumos extends JPanel {
 
 		@Override
 		public int getColumnCount() {
-			return 6;
+			return 3;
 		}
 
 		@Override
@@ -41,14 +41,8 @@ final class ListaConsumos extends JPanel {
 				case 0:
 					return "Data";
 				case 1:
-					return "Calibre";
+					return "Munição";
 				case 2:
-					return "Projétil";
-				case 3:
-					return "Chumbos";
-				case 4:
-					return "Pólvora";
-				case 5:
 					return "Quantidade";
 			}
 			return null;
@@ -65,20 +59,13 @@ final class ListaConsumos extends JPanel {
 			Municao municao = consumo.getMunicao();
 			Calibre calibre = municao.getCalibre();
 			Projetil projetil = municao.getProjetil();
-			int chumbos = municao.getQuantidadeChumbo();
-			double polvora = municao.getQuantidadePolvora();
+			Estojo estojo = municao.getEstojo();
 			switch (col) {
 				case 0:
 					return formatDate(consumo.getData());
 				case 1:
-					return calibre == null ? "" : calibre.getDescricao();
+					return calibre.getDescricao() + " - " + projetil.getDescricao() + " - " + estojo.getDescricao();
 				case 2:
-					return projetil == null ? "" : projetil.getDescricao();
-				case 3:
-					return chumbos;
-				case 4:
-					return polvora;
-				case 5:
 					return consumo.getQuantidade();
 			}
 			return null;
@@ -181,7 +168,7 @@ final class ListaConsumos extends JPanel {
 	}
 
 	private void exibe(Consumo consumo) {
-		CadastroConsumo dialogo = new CadastroConsumo(consumo);
+		CadastroConsumo dialogo = Controlador.get().registra(new CadastroConsumo(consumo));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

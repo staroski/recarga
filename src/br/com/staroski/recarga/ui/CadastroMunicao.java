@@ -1,5 +1,6 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -454,8 +455,7 @@ final class CadastroMunicao extends JDialog {
 				Database.get().save(municao);
 				dispose();
 			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				showError(this, e);
 			}
 		}
 	}

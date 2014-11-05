@@ -157,7 +157,7 @@ final class ListaChumbos extends JPanel {
 	}
 
 	private void exibe(Chumbo chumbo) {
-		CadastroChumbo dialogo = new CadastroChumbo(chumbo);
+		CadastroChumbo dialogo = Controlador.get().registra(new CadastroChumbo(chumbo));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

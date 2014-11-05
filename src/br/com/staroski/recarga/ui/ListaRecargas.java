@@ -50,23 +50,23 @@ final class ListaRecargas extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return getConsumos().size();
+			return getRecargas().size();
 		}
 
 		@Override
 		public Object getValueAt(int row, int col) {
-			Consumo consumo = getConsumos().get(row);
+			Recarga recarga = getRecargas().get(row);
+			Municao municao = recarga.getMunicao();
+			Calibre calibre = municao.getCalibre();
+			Projetil projetil = municao.getProjetil();
+			Estojo estojo = municao.getEstojo();
 			switch (col) {
 				case 0:
-					return formatDate(consumo.getData());
+					return formatDate(recarga.getData());
 				case 1:
-					Municao municao = consumo.getMunicao();
-					Calibre calibre = municao.getCalibre();
-					Projetil projetil = municao.getProjetil();
-					Estojo estojo = municao.getEstojo();
 					return calibre.getDescricao() + " - " + projetil.getDescricao() + " - " + estojo.getDescricao();
 				case 2:
-					return consumo.getQuantidade();
+					return recarga.getQuantidade();
 			}
 			return null;
 		}
@@ -82,46 +82,46 @@ final class ListaRecargas extends JPanel {
 	public ListaRecargas() {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setOpaque(false);
 		add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
-				JPanel panel = new JPanel();
-				panel_1.add(panel, BorderLayout.EAST);
-				panel.setOpaque(false);
-				FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-				flowLayout.setAlignment(FlowLayout.RIGHT);
-				
-						JButton buttonNovo = new JButton("Novo");
-						buttonNovo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								novoConsumo();
-							}
-						});
-						panel.add(buttonNovo);
-						
-								JButton buttonEditar = new JButton("Editar");
-								buttonEditar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										editarConsumo();
-									}
-								});
-								panel.add(buttonEditar);
-								
-										JButton buttonExcluir = new JButton("Excluir");
-										buttonExcluir.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												excluirConsumo();
-											}
-										});
-										panel.add(buttonExcluir);
-										
-										JLabel lblChumbos = new JLabel("Recargas");
-										lblChumbos.setFont(new Font("Arial", lblChumbos.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblChumbos.getFont().getSize() + 12));
-										lblChumbos.setHorizontalAlignment(SwingConstants.CENTER);
-										panel_1.add(lblChumbos, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		panel_1.add(panel, BorderLayout.EAST);
+		panel.setOpaque(false);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+
+		JButton buttonNovo = new JButton("Novo");
+		buttonNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				novoRecarga();
+			}
+		});
+		panel.add(buttonNovo);
+
+		JButton buttonEditar = new JButton("Editar");
+		buttonEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarRecarga();
+			}
+		});
+		panel.add(buttonEditar);
+
+		JButton buttonExcluir = new JButton("Excluir");
+		buttonExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirRecarga();
+			}
+		});
+		panel.add(buttonExcluir);
+
+		JLabel lblRecarga = new JLabel("Recargas");
+		lblRecarga.setFont(new Font("Arial", lblRecarga.getFont().getStyle() | Font.BOLD | Font.ITALIC, lblRecarga.getFont().getSize() + 12));
+		lblRecarga.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(lblRecarga, BorderLayout.CENTER);
 
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
@@ -131,7 +131,7 @@ final class ListaRecargas extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() > 1) {
-					editarConsumo();
+					editarRecarga();
 				}
 			}
 		});
@@ -147,38 +147,38 @@ final class ListaRecargas extends JPanel {
 		((Modelo) table.getModel()).fireTableDataChanged();
 	}
 
-	private void editarConsumo() {
+	private void editarRecarga() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < getConsumos().size()) {
-			exibe(getConsumos().get(linha));
+		if (linha >= 0 && linha < getRecargas().size()) {
+			exibe(getRecargas().get(linha));
 		}
 	}
 
-	private void excluirConsumo() {
+	private void excluirRecarga() {
 		int linha = table.getSelectedRow();
-		if (linha >= 0 && linha < getConsumos().size()) {
-			Consumo consumo = getConsumos().get(linha);
-			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o consumo do dia " + formatDate(consumo.getData()) + "?", "Excluir?",
+		if (linha >= 0 && linha < getRecargas().size()) {
+			Recarga recarga = getRecargas().get(linha);
+			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o recarga do dia " + formatDate(recarga.getData()) + "?", "Excluir?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
-				Database.get().delete(consumo);
+				Database.get().delete(recarga);
 				atualizar();
 			}
 		}
 	}
 
-	private void exibe(Consumo consumo) {
-		CadastroConsumo dialogo = new CadastroConsumo(consumo);
+	private void exibe(Recarga recarga) {
+		CadastroRecarga dialogo = Controlador.get().registra(new CadastroRecarga(recarga));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();
 	}
 
-	private List<Consumo> getConsumos() {
-		return Database.get().getConsumos();
+	private List<Recarga> getRecargas() {
+		return Database.get().getRecargas();
 	}
 
-	private void novoConsumo() {
-		exibe(new Consumo());
+	private void novoRecarga() {
+		exibe(new Recarga());
 	}
 }

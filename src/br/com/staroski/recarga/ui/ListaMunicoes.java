@@ -1,5 +1,7 @@
 package br.com.staroski.recarga.ui;
 
+import static br.com.staroski.recarga.ui.Utils.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -20,9 +22,13 @@ final class ListaMunicoes extends JPanel {
 		public Class<?> getColumnClass(int col) {
 			switch (col) {
 				case 0:
-					return String.class;
 				case 1:
+					return String.class;
+				case 2:
 					return Integer.class;
+				case 3:
+				case 4:
+					return Double.class;
 			}
 			return Object.class;
 		}
@@ -168,14 +174,18 @@ final class ListaMunicoes extends JPanel {
 			int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir a munição" + (calibre == null ? "" : " " + calibre.getDescricao()) + "?",
 					"Excluir?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (opcao == JOptionPane.YES_OPTION) {
-				Database.get().delete(municao);
-				atualizar();
+				try {
+					Database.get().delete(municao);
+					atualizar();
+				} catch (Exception e) {
+					showError(this, e);
+				}
 			}
 		}
 	}
 
 	private void exibe(Municao municao) {
-		CadastroMunicao dialogo = new CadastroMunicao(municao);
+		CadastroMunicao dialogo = Controlador.get().registra(new CadastroMunicao(municao));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

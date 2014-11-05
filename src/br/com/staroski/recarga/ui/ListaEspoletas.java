@@ -157,7 +157,7 @@ final class ListaEspoletas extends JPanel {
 	}
 
 	private void exibe(Espoleta espoleta) {
-		CadastroEspoleta dialogo = new CadastroEspoleta(espoleta);
+		CadastroEspoleta dialogo = Controlador.get().registra(new CadastroEspoleta(espoleta));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

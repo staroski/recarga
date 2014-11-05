@@ -4,6 +4,9 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.*;
+import org.hibernate.exception.*;
+
 import br.com.staroski.recarga.persistence.entities.*;
 
 public final class Database {
@@ -35,19 +38,41 @@ public final class Database {
 	private Database() {}
 
 	public void delete(Object object) {
-		boolean commit = false;
 		try {
-			manager.getTransaction().begin();
-			manager.remove(object);
-			commit = true;
-		} finally {
-			if (commit) {
-				manager.getTransaction().commit();
-				needReload();
-			} else {
-				manager.getTransaction().rollback();
+			boolean commit = false;
+			try {
+				manager.getTransaction().begin();
+				manager.createQuery("delete from " + tableName(object) + " o where o = :object").setParameter("object", object).executeUpdate();
+				commit = true;
+			} finally {
+				if (commit) {
+					manager.getTransaction().commit();
+					needReload();
+				} else {
+					manager.getTransaction().rollback();
+				}
 			}
+		} catch (Throwable e) {
+			throw handleException(e);
 		}
+	}
+
+	private RuntimeException handleException(Throwable error) {
+		Throwable cause = error.getCause();
+		if (cause instanceof ConstraintViolationException) {
+			throw new RuntimeException("Não é possível excluir o registro, ele é referenciado em outro lugar!");
+		}
+		if (cause instanceof PropertyValueException) {
+			throw new RuntimeException("Não é possível salvar o registro, verifique os campos preenchidos!");
+		}
+		if (error instanceof RuntimeException) {
+			return (RuntimeException) error;
+		}
+		return new RuntimeException(error);
+	}
+
+	private static String tableName(Object object) {
+		return object.getClass().getSimpleName();
 	}
 
 	public List<Calibre> getCalibres() {
@@ -158,18 +183,22 @@ public final class Database {
 	}
 
 	public void save(Object object) {
-		boolean commit = false;
 		try {
-			manager.getTransaction().begin();
-			manager.persist(object);
-			commit = true;
-		} finally {
-			if (commit) {
-				manager.getTransaction().commit();
-				needReload();
-			} else {
-				manager.getTransaction().rollback();
+			boolean commit = false;
+			try {
+				manager.getTransaction().begin();
+				manager.persist(object);
+				commit = true;
+			} finally {
+				if (commit) {
+					manager.getTransaction().commit();
+					needReload();
+				} else {
+					manager.getTransaction().rollback();
+				}
 			}
+		} catch (Throwable e) {
+			throw handleException(e);
 		}
 	}
 

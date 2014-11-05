@@ -157,7 +157,7 @@ final class ListaProjeteis extends JPanel {
 	}
 
 	private void exibe(Projetil projetil) {
-		CadastroProjetil dialogo = new CadastroProjetil(projetil);
+		CadastroProjetil dialogo = Controlador.get().registra(new CadastroProjetil(projetil));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();

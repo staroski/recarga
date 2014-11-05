@@ -157,7 +157,7 @@ final class ListaEstojos extends JPanel {
 	}
 
 	private void exibe(Estojo estojo) {
-		CadastroEstojo dialogo = new CadastroEstojo(estojo);
+		CadastroEstojo dialogo = Controlador.get().registra(new CadastroEstojo(estojo));
 		dialogo.setLocationRelativeTo(this);
 		dialogo.setVisible(true);
 		atualizar();
