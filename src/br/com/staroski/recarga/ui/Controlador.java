@@ -6,7 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
-final class Controlador {
+public final class Controlador {
 
 	private static class Holder {
 

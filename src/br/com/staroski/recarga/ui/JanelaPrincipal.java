@@ -5,25 +5,35 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import br.com.staroski.recarga.*;
+import br.com.staroski.recarga.ui.calibres.*;
+import br.com.staroski.recarga.ui.chumbos.*;
+import br.com.staroski.recarga.ui.consumos.*;
+import br.com.staroski.recarga.ui.espoletas.*;
+import br.com.staroski.recarga.ui.estojos.*;
+import br.com.staroski.recarga.ui.municoes.*;
+import br.com.staroski.recarga.ui.polvoras.*;
+import br.com.staroski.recarga.ui.projeteis.*;
+import br.com.staroski.recarga.ui.recargas.*;
+
 public final class JanelaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1;
 
 	public JanelaPrincipal() {
-		super(Recursos.TITULO_JANELA_PRINCIPAL);
-		setIconImage(Recursos.IMAGEM_ICONE);
-		setContentPane(new ContentPane());
+		super(Application.NAME);
+		setIconImage(Application.ICON);
+		setContentPane(new PanelFundo());
 		Dimension size = new Dimension(640, 480);
 		setSize(size);
 		setMinimumSize(size);
-		montaLayout();
 	}
 
-	private void montaLayout() {
+	public void montaLayout() {
 		Container container = getContentPane();
 		container.setLayout(new BorderLayout());
 
-		PanelVisualizador visualizador = new PanelVisualizador();
+		PanelTela visualizador = new PanelTela();
 		Controlador controlador = Controlador.get();
 		controlador.setVisualizador(visualizador);
 		controlador.registra(Tela.INICIAL, new TelaInicial());
@@ -47,7 +57,7 @@ public final class JanelaPrincipal extends JFrame {
 
 	@Override
 	public void paint(Graphics g) {
-		BufferedImage image = Recursos.IMAGEM_FUNDO;
+		BufferedImage image = Application.BACKGROUND;
 		int x = 0;
 		int y = 0;
 		int w = getWidth();

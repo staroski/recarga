@@ -1,0 +1,50 @@
+package br.com.staroski.recarga;
+
+import java.awt.image.*;
+import java.io.*;
+
+import javax.imageio.*;
+
+public final class Application {
+
+	public static final File VENDOR_DIR;
+	public static final String NAME;
+	public static final BufferedImage ICON;
+	public static final BufferedImage BACKGROUND;
+	public static final File DIR;
+	public static final File STORAGE;
+	public static final File STORAGE_DATA;
+	public static final File STORAGE_BACKUP;
+	public static final String DATABASE_NAME;
+	public static final File DATABASE_DIR;
+
+	static {
+		NAME = "Controle de Recarga de Munições";
+
+		ICON = load("/icone_64x64.png");
+
+		BACKGROUND = load("/cammo-01-claro_500x500.jpg");
+
+		VENDOR_DIR = new File(OS.USER_HOME, "staroski.com.br");
+
+		DIR = new File(VENDOR_DIR, "recarga");
+
+		STORAGE = new File(DIR, "storage");
+		STORAGE_DATA = new File(STORAGE, "data");
+		STORAGE_BACKUP = new File(STORAGE, "backup");
+
+		DATABASE_NAME = "recarga";
+		DATABASE_DIR = new File(STORAGE_DATA, DATABASE_NAME);
+	}
+
+	private static BufferedImage load(String resource) {
+		try {
+			return ImageIO.read(Application.class.getResourceAsStream(resource));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private Application() {}
+}

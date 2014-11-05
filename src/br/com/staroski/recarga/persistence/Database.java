@@ -37,7 +37,7 @@ public final class Database {
 
 	private Database() {}
 
-	public void delete(Object object) {
+	public void delete(Object object) throws DatabaseException {
 		try {
 			boolean commit = false;
 			try {
@@ -57,18 +57,15 @@ public final class Database {
 		}
 	}
 
-	private RuntimeException handleException(Throwable error) {
+	private DatabaseException handleException(Throwable error) {
 		Throwable cause = error.getCause();
 		if (cause instanceof ConstraintViolationException) {
-			throw new RuntimeException("Não é possível excluir o registro, ele é referenciado em outro lugar!");
+			return new DatabaseException("Não é possível excluir o registro, ele é referenciado em outro lugar!");
 		}
 		if (cause instanceof PropertyValueException) {
-			throw new RuntimeException("Não é possível salvar o registro, verifique os campos preenchidos!");
+			return new DatabaseException("Não é possível salvar o registro, verifique os campos preenchidos!");
 		}
-		if (error instanceof RuntimeException) {
-			return (RuntimeException) error;
-		}
-		return new RuntimeException(error);
+		return new DatabaseException(error);
 	}
 
 	private static String tableName(Object object) {
@@ -182,7 +179,7 @@ public final class Database {
 		}
 	}
 
-	public void save(Object object) {
+	public void save(Object object) throws DatabaseException {
 		try {
 			boolean commit = false;
 			try {

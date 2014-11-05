@@ -4,6 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import br.com.staroski.recarga.*;
+
 final class TelaInicial extends JPanel {
 
 	private static final long serialVersionUID = 1;
@@ -12,11 +14,9 @@ final class TelaInicial extends JPanel {
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 0));
 
-		JLabel lblTitulo = new JLabel("");
+		JLabel lblTitulo = new JLabel(Application.NAME);
 		lblTitulo.setFont(new Font("Arial", lblTitulo.getFont().getStyle() | Font.BOLD | Font.ITALIC, 24));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblTitulo, BorderLayout.CENTER);
-
-		lblTitulo.setText(Recursos.TITULO_JANELA_PRINCIPAL);
 	}
 }

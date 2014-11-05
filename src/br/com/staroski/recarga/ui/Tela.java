@@ -1,6 +1,6 @@
 package br.com.staroski.recarga.ui;
 
-enum Tela {
+public enum Tela {
 
 	INICIAL, //
 	LISTA_CALIBRES, //
