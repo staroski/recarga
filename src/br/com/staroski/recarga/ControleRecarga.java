@@ -5,12 +5,15 @@ import static br.com.staroski.recarga.ui.UI.*;
 
 import java.awt.event.*;
 import java.io.*;
+import java.text.*;
+import java.util.*;
 
 import javax.swing.*;
 
 import br.com.staroski.recarga.persistence.*;
 import br.com.staroski.recarga.ui.*;
 import br.com.staroski.tools.io.*;
+import br.com.staroski.tools.zip.*;
 
 public final class ControleRecarga {
 
@@ -27,17 +30,38 @@ public final class ControleRecarga {
 	private ControleRecarga() {}
 
 	private boolean checkStorage() {
-		if (!DATABASE_DIR.exists() || DATABASE_DIR.listFiles().length < 3) {
-			janela.setVisible(true);
-			int opcao = JOptionPane.showConfirmDialog(janela,
-					"Será necessário criar uma base de dados no seguinte diretório:\n\n" + STORAGE_DATA.getAbsolutePath() + "\n\nDeseja prosseguir?",
-					"Criar Base de Dados?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (opcao == JOptionPane.YES_OPTION) {
-				createStorage();
-				return true;
+		try {
+			if (!DATABASE_DIR.exists() || DATABASE_DIR.listFiles().length < 3) {
+				if (restoreBackup()) {
+					return true;
+				}
+				janela.setVisible(true);
+				int opcao = JOptionPane.showConfirmDialog(janela,
+						"Será necessário criar a base de dados no seguinte diretório:\n\n" + STORAGE.getAbsolutePath() + "\n\nDeseja prosseguir?",
+						"Criar Base de Dados?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (opcao == JOptionPane.YES_OPTION) {
+					createStorage();
+					return true;
+				}
+				return false;
 			}
+			return true;
+		} catch (Exception e) {
+			showError(janela, e);
 			return false;
 		}
+	}
+
+	private boolean restoreBackup() throws Exception {
+		List<File> backups = getBackups();
+		if (backups.size() < 1) {
+			return false;
+		}
+		System.out.println("restaurando backup...");
+		int ultimo = backups.size() - 1;
+		File backup = backups.get(ultimo);
+		ZipUtils.extract(backup, STORAGE_DATA);
+		System.out.println("restaurado!");
 		return true;
 	}
 
@@ -109,9 +133,58 @@ public final class ControleRecarga {
 	private void logout() {
 		try {
 			Database.get().logout();
+			deleteOldBackups();
+			createBackup();
 			System.exit(0);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			showError(janela, e);
 		}
+	}
+
+	private void createBackup() throws Exception {
+		System.out.println("criando backup da base de dados...");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		String fileName = DATABASE_NAME + "_" + formatter.format(new Date()) + ".bkp";
+		File backupFile = new File(STORAGE_BACKUP, fileName);
+		ZipUtils.compress(DATABASE_DIR, backupFile);
+		System.out.println("backup criado!");
+	}
+
+	private void deleteOldBackups() {
+		if (!STORAGE_BACKUP.exists()) {
+			STORAGE_BACKUP.mkdirs();
+			return;
+		}
+		List<File> backups = getBackups();
+		if (backups.size() >= 10) {
+			System.out.println("verificando backups antigos...");
+			while (backups.size() >= 10) {
+				File toRemove = backups.remove(0);
+				toRemove.delete();
+			}
+			System.out.println("backups antigos verificados!");
+		}
+	}
+
+	private List<File> getBackups() {
+		FilenameFilter bkps = new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".bkp");
+			}
+		};
+		File[] files = STORAGE_BACKUP.listFiles(bkps);
+		List<File> backups = new ArrayList<>();
+		backups.addAll(Arrays.asList(files));
+		Comparator<File> ascendente = new Comparator<File>() {
+
+			@Override
+			public int compare(File o1, File o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		};
+		Collections.sort(backups, ascendente);
+		return backups;
 	}
 }

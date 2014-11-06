@@ -73,7 +73,6 @@ public final class Controlador {
 
 	private void applyFocusSelector(Container container) {
 		for (Component component : container.getComponents()) {
-			System.out.println(component.getClass().getSimpleName());
 			if (component instanceof TextComponent) {
 				((TextComponent) component).addFocusListener(FOCUS_SELECTOR);
 			} else if (component instanceof JTextComponent) {
