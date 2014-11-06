@@ -151,10 +151,6 @@ public final class ControleRecarga {
 	}
 
 	private void deleteOldBackups() {
-		if (!STORAGE_BACKUP.exists()) {
-			STORAGE_BACKUP.mkdirs();
-			return;
-		}
 		List<File> backups = getBackups();
 		if (backups.size() >= 10) {
 			System.out.println("verificando backups antigos...");
@@ -167,6 +163,11 @@ public final class ControleRecarga {
 	}
 
 	private List<File> getBackups() {
+		List<File> backups = new ArrayList<>();
+		if (!STORAGE_BACKUP.exists()) {
+			STORAGE_BACKUP.mkdirs();
+			return backups;
+		}
 		FilenameFilter bkps = new FilenameFilter() {
 
 			@Override
@@ -175,7 +176,6 @@ public final class ControleRecarga {
 			}
 		};
 		File[] files = STORAGE_BACKUP.listFiles(bkps);
-		List<File> backups = new ArrayList<>();
 		backups.addAll(Arrays.asList(files));
 		Comparator<File> ascendente = new Comparator<File>() {
 

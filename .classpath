@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="lib/hsql/hsqldb.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate/hibernate-commons-annotations-4.0.5.Final.jar"/>
@@ -16,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/hibernate/jboss-logging-annotations-1.2.0.Beta1.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
+	<classpathentry kind="lib" path="lib/hsqldb/hsqldb.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
