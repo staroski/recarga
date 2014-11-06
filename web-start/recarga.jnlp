@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- codebase="http://www.staroski.com.br/downloads/recarga/" -->
+<jnlp spec="6.0+"
+      codebase="http://localhost:4000/downloads/recarga/"
+      href="recarga.jnlp">
+	<information>
+		<title>Controle de Recarga</title>
+		<vendor>Staroski</vendor>
+		<homepage href="help"/>
+		<description>Sistema para Controle de Recarga de Munições</description>
+		<description kind="short">Controle de Recarga de Munições</description>
+		<icon href="icone_48x48.png"/>
+		<icon kind="splash"
+		      href="splash_600x600.png"/>
+		<offline-allowed/>
+		<shortcut online="true">
+			<desktop/>
+			<menu submenu="Staroski"/>
+		</shortcut>
+	</information>
+	<security>
+		<all-permissions/>
+	</security>
+	<resources>
+		<j2se version="1.7+"
+		      href="http://java.sun.com/products/autodl/j2se"/>
+		<jar href="recarga.jar"
+		     main="true" />
+		<jar href="staroski-tools.jar" />
+		<jar href="hsqldb/hsqldb.jar" />
+		<jar href="hibernate/antlr-2.7.7.jar" />
+		<jar href="hibernate/dom4j-1.6.1.jar" />
+		<jar href="hibernate/hibernate-commons-annotations-4.0.5.Final.jar" />
+		<jar href="hibernate/hibernate-core-4.3.6.Final.jar" />
+		<jar href="hibernate/hibernate-entitymanager-4.3.6.Final.jar" />
+		<jar href="hibernate/hibernate-jpa-2.1-api-1.0.0.Final.jar" />
+		<jar href="hibernate/jandex-1.1.0.Final.jar" />
+		<jar href="hibernate/javassist-3.18.1-GA.jar" />
+		<jar href="hibernate/jboss-logging-3.1.3.GA.jar" />
+		<jar href="hibernate/jboss-logging-annotations-1.2.0.Beta1.jar" />
+		<jar href="hibernate/jboss-transaction-api_1.2_spec-1.0.0.Final.jar" />
+	</resources>
+	<application-desc name="Controle de Recarga"
+	                  main-class="br.com.staroski.recarga.ControleRecarga"
+	                  width="640"
+	                  height="480">
+	</application-desc>
+	<update check="always"
+	        policy="prompt-update"/>
+</jnlp>
