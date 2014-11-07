@@ -7,10 +7,12 @@ import javax.imageio.*;
 
 public final class Application {
 
+	public static final String VENDOR_URL;
 	public static final File VENDOR_DIR;
 	public static final String NAME;
-	public static final BufferedImage ICON;
-	public static final BufferedImage BACKGROUND;
+	public static final BufferedImage IMAGE_ICON;
+	public static final BufferedImage IMAGE_BACKGROUND;
+	public static final BufferedImage IMAGE_SPLASH;
 	public static final File DIR;
 	public static final File STORAGE;
 	public static final File STORAGE_DATA;
@@ -19,13 +21,13 @@ public final class Application {
 	public static final File DATABASE_DIR;
 
 	static {
-		NAME = "Controle de Recarga de Munições";
-
-		ICON = load("/icone_64x64.png");
-
-		BACKGROUND = load("/cammo-01-claro_500x500.jpg");
-
+		VENDOR_URL="staroski.com.br";
 		VENDOR_DIR = new File(OS.USER_HOME, "staroski.com.br");
+		NAME = "Controle de Recarga de Muni\u00E7\u00F5es";
+
+		IMAGE_ICON = load("/icone_64x64.png");
+		IMAGE_BACKGROUND = load("/cammo-01-claro_500x500.jpg");
+		IMAGE_SPLASH = load("/fundo-claro_600x600.png");
 
 		DIR = new File(VENDOR_DIR, "recarga");
 

@@ -210,4 +210,48 @@ public final class Database {
 		consumos = null;
 		recargas = null;
 	}
+
+	public void atualizaEstoque(Recarga recarga) {
+		int quantidade = recarga.getQuantidade();
+		Municao municao = recarga.getMunicao();
+		int municoesDisponiveis = municao.getQuantidade();
+		municoesDisponiveis += quantidade;
+		municao.setQuantidade(municoesDisponiveis);
+
+		Estojo estojo = municao.getEstojo();
+		if (estojo != null) {
+			int estojosDisponiveis = estojo.getQuantidade();
+			estojosDisponiveis -= quantidade;
+			estojo.setQuantidade(estojosDisponiveis);
+		}
+
+		Projetil projetil = municao.getProjetil();
+		if (projetil != null) {
+			int projeteisDisponiveis = projetil.getQuantidade();
+			projeteisDisponiveis -= quantidade;
+			projetil.setQuantidade(projeteisDisponiveis);
+		}
+
+		Espoleta espoleta = municao.getEspoleta();
+		if (espoleta != null) {
+			int espoletasDisponiveis = espoleta.getQuantidade();
+			espoletasDisponiveis -= quantidade;
+			espoleta.setQuantidade(espoletasDisponiveis);
+		}
+
+		Polvora polvora = municao.getPolvora();
+		if (polvora != null) {
+			int polvoraDisponivel = polvora.getQuantidade();
+			polvoraDisponivel -= municao.getQuantidadePolvora() * quantidade;
+			polvora.setQuantidade(polvoraDisponivel);
+		}
+
+		Chumbo chumbo = municao.getChumbo();
+		if (chumbo != null) {
+			int chumboDisponivel = chumbo.getQuantidade();
+			chumboDisponivel -= municao.getQuantidadeChumbo() * quantidade;
+			chumbo.setQuantidade(chumboDisponivel);
+		}
+
+	}
 }

@@ -443,15 +443,15 @@ public final class CadastroMunicao extends JDialog {
 				Polvora polvora = linha < 0 ? null : getPolvoras().get(linha);
 				municao.setPolvora(polvora);
 
-				municao.setQuantidadePolvora(Double.parseDouble(textFieldQuantidadePolvora.getText()));
+				municao.setQuantidadePolvora(parseDouble(textFieldQuantidadePolvora.getText()));
 
 				linha = comboBoxChumbo.getSelectedIndex() - 1;
 				Chumbo chumbo = linha < 0 ? null : getChumbos().get(linha);
 				municao.setChumbo(chumbo);
 
-				municao.setQuantidadeChumbo(Integer.parseInt(textFieldQuantidadeChumbo.getText()));
+				municao.setQuantidadeChumbo(parseInt(textFieldQuantidadeChumbo.getText()));
 
-				municao.setQuantidade(Integer.parseInt(textFieldQuantidadeDisponivel.getText().trim()));
+				municao.setQuantidade(parseInt(textFieldQuantidadeDisponivel.getText()));
 				Database.get().save(municao);
 				dispose();
 			} catch (Exception e) {

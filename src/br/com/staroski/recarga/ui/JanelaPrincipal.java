@@ -22,8 +22,12 @@ public final class JanelaPrincipal extends JFrame {
 
 	public JanelaPrincipal() {
 		super(Application.NAME);
-		setIconImage(Application.ICON);
-		setContentPane(new PanelFundo());
+		setIconImage(Application.IMAGE_ICON);
+		ImagePanel imagePanel = new ImagePanel();
+		imagePanel.setStretchEnabled(false);
+		imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		imagePanel.setImage(Application.IMAGE_BACKGROUND);
+		setContentPane(imagePanel);
 		Dimension size = new Dimension(640, 480);
 		setSize(size);
 		setMinimumSize(size);
@@ -57,7 +61,7 @@ public final class JanelaPrincipal extends JFrame {
 
 	@Override
 	public void paint(Graphics g) {
-		BufferedImage image = Application.BACKGROUND;
+		BufferedImage image = Application.IMAGE_BACKGROUND;
 		int x = 0;
 		int y = 0;
 		int w = getWidth();

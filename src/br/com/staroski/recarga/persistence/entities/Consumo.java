@@ -26,7 +26,7 @@ public class Consumo {
 		return id;
 	}
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinColumn(name = "id_consumo_municao", nullable = false)
 	public Municao getMunicao() {
 		return municao;
