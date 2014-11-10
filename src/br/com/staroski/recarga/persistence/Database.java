@@ -199,6 +199,34 @@ public final class Database {
 		}
 	}
 
+	public void save(Recarga recarga) throws DatabaseException {
+		try {
+			boolean commit = false;
+			try {
+				manager.getTransaction().begin();
+				atualizaEstoque(recarga);
+				Municao municao=recarga.getMunicao();
+				manager.persist(municao.getEstojo());
+				manager.persist(municao.getProjetil());
+				manager.persist(municao.getEspoleta());
+				manager.persist(municao.getPolvora());
+				manager.persist(municao.getChumbo());
+				manager.persist(municao);
+				manager.persist(recarga);
+				commit = true;
+			} finally {
+				if (commit) {
+					manager.getTransaction().commit();
+					needReload();
+				} else {
+					manager.getTransaction().rollback();
+				}
+			}
+		} catch (Throwable e) {
+			throw handleException(e);
+		}
+	}
+	
 	private void needReload() {
 		calibres = null;
 		chumbos = null;
@@ -211,7 +239,7 @@ public final class Database {
 		recargas = null;
 	}
 
-	public void atualizaEstoque(Recarga recarga) {
+	private void atualizaEstoque(Recarga recarga) {
 		int quantidade = recarga.getQuantidade();
 		Municao municao = recarga.getMunicao();
 		int municoesDisponiveis = municao.getQuantidade();

@@ -93,6 +93,6 @@ public final class UI {
 
 	public static void showError(Component parent, Throwable erro) {
 		erro.printStackTrace();
-		JOptionPane.showMessageDialog(parent, erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(parent, erro.getClass().getSimpleName() + ": " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 	}
 }

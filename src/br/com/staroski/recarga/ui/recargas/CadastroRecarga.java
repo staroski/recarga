@@ -179,7 +179,6 @@ public final class CadastroRecarga extends JDialog {
 				recarga.setData(parseDate(textFieldData.getText()));
 				recarga.setMunicao(municao);
 				recarga.setQuantidade(parseInt(textFieldQuantidade.getText()));
-				Database.get().atualizaEstoque(recarga);
 				Database.get().save(recarga);
 				dispose();
 			} catch (Exception e) {

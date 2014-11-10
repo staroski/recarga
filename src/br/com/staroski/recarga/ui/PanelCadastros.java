@@ -32,16 +32,16 @@ final class PanelCadastros extends JPanel {
 				btnRecargas.setMinimumSize(new Dimension(100, 30));
 				btnRecargas.setMaximumSize(new Dimension(100, 30));
 				
-						JButton btnConsumos = new JButton("Consumos");
-						panel_1.add(btnConsumos);
-						btnConsumos.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								Controlador.get().exibe(Tela.LISTA_CONSUMOS);
-							}
-						});
-						btnConsumos.setPreferredSize(new Dimension(100, 30));
-						btnConsumos.setMinimumSize(new Dimension(100, 30));
-						btnConsumos.setMaximumSize(new Dimension(100, 30));
+//						JButton btnConsumos = new JButton("Consumos");
+//						panel_1.add(btnConsumos);
+//						btnConsumos.addActionListener(new ActionListener() {
+//							public void actionPerformed(ActionEvent e) {
+//								Controlador.get().exibe(Tela.LISTA_CONSUMOS);
+//							}
+//						});
+//						btnConsumos.setPreferredSize(new Dimension(100, 30));
+//						btnConsumos.setMinimumSize(new Dimension(100, 30));
+//						btnConsumos.setMaximumSize(new Dimension(100, 30));
 						
 						JButton btnMunies = new JButton("Muni\u00E7\u00F5es");
 						btnMunies.addActionListener(new ActionListener() {
