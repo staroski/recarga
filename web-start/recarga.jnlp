@@ -3,15 +3,15 @@
       codebase="http://www.staroski.com.br/recarga/"
       href="recarga.jnlp">
 	<information>
-		<title>Controle de Recarga de Munições</title>
+		<title>Recarga de Munições</title>
 		<vendor>Staroski</vendor>
-		<homepage href="help"/>
+		<homepage href=""/>
 		<description>Sistema para Controle de Recarga de Munições</description>
 		<description kind="short">Controle de Recarga de Munições</description>
 		<icon href="icone_32x32.png" width="32" height="32" />
 		<icon href="icone_64x64.png" width="64" height="64" />
 		<offline-allowed/>
-		<shortcut online="true">
+		<shortcut online="true" install="true">
 			<desktop/>
 			<menu submenu="Staroski"/>
 		</shortcut>
@@ -35,13 +35,12 @@
 		<jar href="hibernate/required/jboss-logging-annotations-1.2.0.Beta1.jar"       />
 		<jar href="hibernate/required/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"  />
 		<jar href="hsqldb/hsqldb.jar"                                                  />
-		<property name="jnlp.versionEnabled" value="true"/>
 	</resources>
-	<application-desc name="Controle de Recarga de Munições"
+	<application-desc name="Recarga de Munições"
 	                  main-class="br.com.staroski.recarga.ControleRecarga"
 					  progress-class="br.com.staroski.recarga.LoadScreen"
 	                  width="640"
 	                  height="480">
 	</application-desc>
-	<update check="background" policy="prompt-update"/>
+	<update check="always" policy="prompt-update"/>
 </jnlp>

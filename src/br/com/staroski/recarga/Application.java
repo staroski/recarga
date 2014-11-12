@@ -25,7 +25,7 @@ public final class Application {
 		VENDOR_URL = "http://www.staroski.com.br";
 		VENDOR_DIR = new File(OS.USER_HOME, "staroski.com.br");
 
-		NAME = "Controle de Recarga de Muni\u00E7\u00F5es";
+		NAME = "Recarga de Muni\u00E7\u00F5es";
 		URL = VENDOR_URL + "/recarga";
 
 		IMAGE_ICON = load("/icone_64x64.png");

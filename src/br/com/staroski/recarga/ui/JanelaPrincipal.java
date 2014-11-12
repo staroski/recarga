@@ -21,7 +21,7 @@ public final class JanelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1;
 
 	public JanelaPrincipal() {
-		super(Application.NAME);
+		super(Application.NAME + " - " + Application.VENDOR_URL);
 		setIconImage(Application.IMAGE_ICON);
 		ImagePanel imagePanel = new ImagePanel();
 		imagePanel.setStretchEnabled(false);
